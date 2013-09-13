@@ -17,8 +17,9 @@ namespace videopuzzle
         public MainPage()
         {
             InitializeComponent();
-
+            MediaElement mediaElement = new MediaElement();
             mediaElement.Source = new Uri("/Assets/Videos/gokarts.mp4", UriKind.Relative);
+            mediaElement.Volume = 100;
             mediaElement.Play();
 
             // Sample code to localize the ApplicationBar

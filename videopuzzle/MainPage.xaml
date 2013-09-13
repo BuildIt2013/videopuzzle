@@ -47,7 +47,20 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <MediaElement Height="225" HorizontalAlignment="Left" Margin="28,6,0,0" Name="mediaElement" VerticalAlignment="Top" Width="400" Volume="0"/>
+            <Canvas x:Name="MainGrid" Background="Aqua">
+                <TextBlock x:Name="textBlock01" Width="150" Height="150" FontSize="108" TextAlignment="Center">1</TextBlock>
+                <TextBlock x:Name="textBlock02" Width="150" Height="150" FontSize="108" Canvas.Left="152" TextAlignment="Center">2</TextBlock>
+                <TextBlock x:Name="textBlock03" Width="150" Height="150" FontSize="108" Canvas.Left="304" TextAlignment="Center">3</TextBlock>
+                <TextBlock x:Name="textBlock04" Width="150" Height="150" FontSize="108" Canvas.Top="152" TextAlignment="Center">4</TextBlock>
+                <TextBlock x:Name="textBlock05" Width="150" Height="150" FontSize="108" Canvas.Top="152" Canvas.Left="152" TextAlignment="Center">5</TextBlock>
+                <TextBlock x:Name="textBlock06" Width="150" Height="150" FontSize="108" Canvas.Top="152" Canvas.Left="304" TextAlignment="Center">6</TextBlock>
+                <TextBlock x:Name="textBlock07" Width="150" Height="150" FontSize="108" Canvas.Top="304" TextAlignment="Center">7</TextBlock>
+                <TextBlock x:Name="textBlock08" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="152" TextAlignment="Center">8</TextBlock>
+                <TextBlock x:Name="textBlock09" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="304" TextAlignment="Center">9</TextBlock>
+                <TextBlock x:Name="textBlock10" Width="150" Height="150" FontSize="108" Canvas.Top="456" TextAlignment="Center">10</TextBlock>
+                <TextBlock x:Name="textBlock11" Width="150" Height="150" FontSize="108" Canvas.Top="456" Canvas.Left="152" TextAlignment="Center">11</TextBlock>
+                <Rectangle x:Name="emptyRectangle" Width="150" Height="150" Canvas.Top="456" Canvas.Left="304" Fill="Gray"></Rectangle>
+            </Canvas>
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are
