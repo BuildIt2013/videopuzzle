@@ -79,22 +79,6 @@ namespace videopuzzle
             return;
         }
 
-        public bool IsWon()
-        {
-            if (squares[11] == null)
-            {
-                int compareValue = -1;
-                foreach(Square sq in squares)
-                {
-                    if (compareValue < sq.number)
-                    {
-                        compareValue = sq.number;
-                    }
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }
+       
     }
 }
