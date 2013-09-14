@@ -24,11 +24,6 @@ namespace videopuzzle
             List<Square> squares = new List<Square>();
             InitializeSquares(squares);
             puzzleBoard = new PuzzleBoard(squares);
-            puzzleBoard.MoveTile(8);
-            puzzleBoard.MoveTile(7);
-            puzzleBoard.MoveTile(6);
-            puzzleBoard.MoveTile(0, 1);
-            
 
             mediaElement = new MediaElement();
             mediaElement.Source = new Uri("/Assets/Videos/gokarts.mp4", UriKind.Relative);
@@ -76,6 +71,17 @@ namespace videopuzzle
             InlineUIContainer iuc = new InlineUIContainer();
             iuc.Child = image;
             textBlock11.Inlines.Add(iuc);
+        }
+
+        private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            if (e.ManipulationContainer.GetType() == typeof (TextBlock)) 
+            {
+                TextBlock temp = (TextBlock)e.ManipulationContainer;
+                int idx = ((int)Canvas.GetLeft(temp)) / 152 + ((int)Canvas.GetTop(temp)) / 152 * 3;
+                puzzleBoard.MoveTile(idx);
+            }
+            
         }
 
 
