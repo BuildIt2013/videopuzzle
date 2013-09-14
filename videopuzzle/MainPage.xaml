@@ -46,7 +46,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
-            <Canvas x:Name="MainGrid" Width="450" Height="600" Background="Gray" ManipulationStarted="MainGrid_ManipulationStarted">
+            <Canvas x:Name="MainGrid" Width="450" Height="600" ManipulationStarted="MainGrid_ManipulationStarted">
                 <Image x:Name="Image01" Width="150" Height="150"></Image>
                 <Image x:Name="Image02" Width="150" Height="150"  Canvas.Left="150" ></Image>
                 <Image x:Name="Image03" Width="150" Height="150"  Canvas.Left="300" ></Image>
