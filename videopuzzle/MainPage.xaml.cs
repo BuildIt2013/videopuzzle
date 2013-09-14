@@ -24,6 +24,11 @@ namespace videopuzzle
             List<Square> squares = new List<Square>();
             InitializeSquares(squares);
             puzzleBoard = new PuzzleBoard(squares);
+            puzzleBoard.MoveTile(8);
+            puzzleBoard.MoveTile(7);
+            puzzleBoard.MoveTile(6);
+            puzzleBoard.MoveTile(0, 2);
+            
 
             mediaElement = new MediaElement();
             mediaElement.Source = new Uri("/Assets/Videos/gokarts.mp4", UriKind.Relative);
@@ -49,6 +54,10 @@ namespace videopuzzle
             squares.Add(null);
         }
 
+        private void textBlock09_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            return;
+        }
        
 
         private void textBlock11_Tap(object sender, System.Windows.Input.GestureEventArgs e)

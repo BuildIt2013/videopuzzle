@@ -30,7 +30,8 @@ namespace videopuzzle
         // are updated according to the calculated values.
         public void SetPosition(int x, int y)
         {
-            block.Margin = new Thickness(x*152, y*152, x*152+TILEDIMENSION, y*152+TILEDIMENSION)
+            Canvas.SetTop(block, y * 152);
+            Canvas.SetLeft(block, x * 152);
             //TODO: Implement
         }
      

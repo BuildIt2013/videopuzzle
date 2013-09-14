@@ -20,18 +20,23 @@ namespace videopuzzle
             squares = sq;   
         }
 
-        public void MoveTile(int tileNumber)
+        public void MoveTile(int x, int y)
+        {
+            MoveTile(CoordinateToIndex(x, y));
+        }
+
+        public void MoveTile(int position)
         {
             int emptyIndex = GetEmptyIndex();
             List<int> emptyCoordinates = IndexToCoordinate(emptyIndex);
-            List<int> tileCoordinates = IndexToCoordinate(tileNumber);
+            List<int> tileCoordinates = IndexToCoordinate(position);
 
             // if there is a difference of 1 in only the other coordinate, swap tiles
             if((Math.Abs(emptyCoordinates[0]-tileCoordinates[0])==1 && Math.Abs(emptyCoordinates[1]-tileCoordinates[1])==0)
                 ||(Math.Abs(emptyCoordinates[0] - tileCoordinates[0]) == 0 && Math.Abs(emptyCoordinates[1] - tileCoordinates[1]) == 1))
             {
-                squares[emptyIndex] = squares[tileNumber];
-                squares[tileNumber] = null;
+                squares[emptyIndex] = squares[position];
+                squares[position] = null;
                 squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
             }
            
