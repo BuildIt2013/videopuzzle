@@ -11,31 +11,102 @@ using Microsoft.Phone.Shell;
 using videopuzzle.Resources;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Microsoft.Phone.Tasks;
+using Nokia.Graphics.Imaging;
+using Nokia.InteropServices.WindowsRuntime;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime; 
+
 
 namespace videopuzzle
 {
     public partial class MainPage : PhoneApplicationPage
     {
         private PuzzleBoard puzzleBoard;
-        private SolidColorBrush boardColor;
-        private List<SolidColorBrush> colors;
+        private List<Square> squares;
+        private BitmapImage puzzleImage;
+        private EditingSession _session;
         Random rand;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            List<Square> squares = new List<Square>();
+            squares = new List<Square>();
             InitializeSquares(squares);
             puzzleBoard = new PuzzleBoard(squares);
-            boardColor = new SolidColorBrush(Colors.Cyan);
-            colors = new List<SolidColorBrush>();
-            colors.Add(new SolidColorBrush(Colors.DarkGray));
-            colors.Add(new SolidColorBrush(Colors.Magenta));
-            colors.Add(new SolidColorBrush(Colors.Purple));
-            colors.Add(new SolidColorBrush(Colors.Yellow));
-            colors.Add(new SolidColorBrush(Colors.Blue));
             rand = new Random();
+            SetImageBackgrounds();
+        }
+
+
+        private void SetImageBackgrounds() {
+
+            puzzleImage = new BitmapImage(new Uri("/Assets/Images/test-image.jpg", UriKind.Relative));
+            puzzleImage.CreateOptions = BitmapCreateOptions.None;
+            puzzleImage.ImageOpened += img_ImageOpened;
+            
+        }
+
+        void img_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private async void PickImageCallback(object sender, PhotoResult e)
+        {
+            if (e.TaskResult != TaskResult.OK)
+            {
+                return;
+            }
+            _session = await EditingSessionFactory.CreateEditingSessionAsync(e.ChosenPhoto);
+            try
+            {
+                // Decode the jpeg for showing the original image
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 0, 150, 150)));
+                await _session.RenderToImageAsync(Image01, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 0, 150, 150)));
+                await _session.RenderToImageAsync(Image02, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 0, 150, 150)));
+                await _session.RenderToImageAsync(Image03, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 150, 150, 150)));
+                await _session.RenderToImageAsync(Image04, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 150, 150, 150)));
+                await _session.RenderToImageAsync(Image05, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 150, 150, 150)));
+                await _session.RenderToImageAsync(Image06, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 300, 150, 150)));
+                await _session.RenderToImageAsync(Image07, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 300, 150, 150)));
+                await _session.RenderToImageAsync(Image08, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 300, 150, 150)));
+                await _session.RenderToImageAsync(Image09, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 450, 150, 150)));
+                await _session.RenderToImageAsync(Image10, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 450, 150, 150)));
+                await _session.RenderToImageAsync(Image11, OutputOption.PreserveAspectRatio);
+                _session.UndoAll();
+                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 450, 150, 150)));
+                await _session.RenderToImageAsync(Image12, OutputOption.PreserveAspectRatio);
+                Image12.Visibility = System.Windows.Visibility.Collapsed;
+
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Exception:" + exception.Message);
+                return;
+            }
         }
 
         private void InitializeSquares(List<Square> squares)
@@ -58,29 +129,36 @@ namespace videopuzzle
         {
             if (e.ManipulationContainer.GetType() != typeof (Canvas)) 
             {
-                int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 152 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 152 * 3;
+                int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
+                
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
-                    MainGrid.Background = new SolidColorBrush(Colors.Green);
+                    Image12.Visibility = System.Windows.Visibility.Visible;
                 else
-                    MainGrid.Background = boardColor;
+                    Image12.Visibility = System.Windows.Visibility.Collapsed;
             }
             
         }
 
         private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
-            MainGrid.Background = boardColor;
+            Image12.Visibility = System.Windows.Visibility.Collapsed;
             puzzleBoard.Shuffle();
             
         }
 
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
-            var idx = (int)(rand.NextDouble() * colors.Count);
-            boardColor = colors.ElementAt(idx);
-            MainGrid.Background = boardColor;
             puzzleBoard.Shuffle();
+        }
+
+        private void ApplicationBarNew_Click(object sender, EventArgs e)
+        {
+            PhotoChooserTask chooser = new PhotoChooserTask();
+            chooser.PixelHeight = 600;
+            chooser.PixelWidth = 450;
+            chooser.Completed += PickImageCallback;
+            chooser.Show();
         }
 
 

@@ -30,8 +30,8 @@ namespace videopuzzle
         // are updated according to the calculated values.
         public void SetPosition(int x, int y)
         {
-            Canvas.SetTop(block, y * 152);
-            Canvas.SetLeft(block, x * 152);
+            Canvas.SetTop(block, y * TILEDIMENSION);
+            Canvas.SetLeft(block, x * TILEDIMENSION);
         }
      
     }

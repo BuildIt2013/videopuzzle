@@ -40,24 +40,25 @@
          -->
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,0,0,0">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,12,12,0">
             <TextBlock Text="Video Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
-            <Canvas x:Name="MainGrid" Background="Aqua" ManipulationStarted="MainGrid_ManipulationStarted">
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image01" Width="150" Height="150"></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image02" Width="150" Height="150"  Canvas.Left="152" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image03" Width="150" Height="150"  Canvas.Left="304" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image04" Width="150" Height="150"  Canvas.Top="152" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image05" Width="150" Height="150"  Canvas.Top="152" Canvas.Left="152" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image06" Width="150" Height="150"  Canvas.Top="152" Canvas.Left="304" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image07" Width="150" Height="150"  Canvas.Top="304" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image08" Width="150" Height="150"  Canvas.Top="304" Canvas.Left="152" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image09" Width="150" Height="150"  Canvas.Top="304" Canvas.Left="304" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image10" Width="150" Height="150"  Canvas.Top="456" ></Image>
-                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image11" Width="150" Height="150"  Canvas.Top="456" Canvas.Left="152" ></Image>
+            <Canvas x:Name="MainGrid" Width="450" Height="600" Background="Gray" ManipulationStarted="MainGrid_ManipulationStarted">
+                <Image x:Name="Image01" Width="150" Height="150"></Image>
+                <Image x:Name="Image02" Width="150" Height="150"  Canvas.Left="150" ></Image>
+                <Image x:Name="Image03" Width="150" Height="150"  Canvas.Left="300" ></Image>
+                <Image x:Name="Image04" Width="150" Height="150"  Canvas.Top="150" ></Image>
+                <Image x:Name="Image05" Width="150" Height="150"  Canvas.Top="150" Canvas.Left="150" ></Image>
+                <Image x:Name="Image06" Width="150" Height="150"  Canvas.Top="150" Canvas.Left="300" ></Image>
+                <Image x:Name="Image07" Width="150" Height="150"  Canvas.Top="300" ></Image>
+                <Image x:Name="Image08" Width="150" Height="150"  Canvas.Top="300" Canvas.Left="150" ></Image>
+                <Image x:Name="Image09" Width="150" Height="150"  Canvas.Top="300" Canvas.Left="300" ></Image>
+                <Image x:Name="Image10" Width="150" Height="150"  Canvas.Top="450" ></Image>
+                <Image x:Name="Image11" Width="150" Height="150"  Canvas.Top="450" Canvas.Left="150" ></Image>
+                <Image x:Name="Image12" Width="150" Height="150"  Canvas.Top="450" Canvas.Left="300"></Image>
             </Canvas>
         </Grid>
 
@@ -72,12 +73,9 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Assets/Images/new.png" Text="Open" Click="ApplicationBarNew_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Shuffle" Click="ApplicationBarShuffle_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Shuffle"/>
-                <shell:ApplicationBarMenuItem Text="Next"/>
-            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
