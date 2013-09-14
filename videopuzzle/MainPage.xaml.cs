@@ -136,6 +136,7 @@ namespace videopuzzle
 
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
+            ResetPuzzle();
             SetImageBackgrounds();
         }
 
@@ -159,8 +160,8 @@ namespace videopuzzle
             {
                 MainGrid.Children.Remove(im);
             }
-            images = new List<Image>;
-            squares = new List<Square>;
+            images = new List<Image>();
+            squares = new List<Square>();
             InitializeSquares();
         }
 
