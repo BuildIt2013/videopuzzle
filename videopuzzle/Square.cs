@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace videopuzzle
 {
     class Square
     {
-       public TextBlock block;
+        private const int TILEDIMENSION = 150;
+        public TextBlock block;
+        public int number;
 
+        public Square(TextBlock bl, int nmbr)
+        {
+            block = bl;
+            number = nmbr;
+        }
         // takes an image and updates the block properties
         public void Update()
         {
@@ -22,6 +30,7 @@ namespace videopuzzle
         // are updated according to the calculated values.
         public void SetPosition(int x, int y)
         {
+            block.Margin = new Thickness(x*152, y*152, x*152+TILEDIMENSION, y*152+TILEDIMENSION)
             //TODO: Implement
         }
      

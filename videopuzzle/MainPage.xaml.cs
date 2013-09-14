@@ -16,10 +16,15 @@ namespace videopuzzle
     public partial class MainPage : PhoneApplicationPage
     {
         private MediaElement mediaElement;
+        private PuzzleBoard puzzleBoard;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
+            List<Square> squares = new List<Square>();
+            InitializeSquares(squares);
+            puzzleBoard = new PuzzleBoard(squares);
+
             mediaElement = new MediaElement();
             mediaElement.Source = new Uri("/Assets/Videos/gokarts.mp4", UriKind.Relative);
             mediaElement.Volume = 100;
@@ -27,6 +32,24 @@ namespace videopuzzle
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
+
+        private void InitializeSquares(List<Square> squares)
+        {
+            squares.Add(new Square(textBlock01, 1));
+            squares.Add(new Square(textBlock02, 2));
+            squares.Add(new Square(textBlock03, 3));
+            squares.Add(new Square(textBlock04, 4));
+            squares.Add(new Square(textBlock05, 5));
+            squares.Add(new Square(textBlock06, 6));
+            squares.Add(new Square(textBlock07, 7));
+            squares.Add(new Square(textBlock08, 8));
+            squares.Add(new Square(textBlock09, 9));
+            squares.Add(new Square(textBlock10, 10));
+            squares.Add(new Square(textBlock11, 11));
+            squares.Add(null);
+        }
+
+       
 
         private void textBlock11_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -45,6 +68,8 @@ namespace videopuzzle
             iuc.Child = image;
             textBlock11.Inlines.Add(iuc);
         }
+
+
 
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()

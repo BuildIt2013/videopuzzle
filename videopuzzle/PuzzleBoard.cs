@@ -12,10 +12,10 @@ namespace videopuzzle
     class PuzzleBoard
     {
         const int ARRAYWIDTH = 3;
-        const int ARRAYHEIGHT = 3;
+        const int ARRAYHEIGHT = 4;
         public List<Square> squares;
 
-        PuzzleBoard(List<Square> sq)
+        public PuzzleBoard(List<Square> sq)
         {
             squares = sq;   
         }
