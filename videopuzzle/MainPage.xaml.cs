@@ -40,17 +40,17 @@ namespace videopuzzle
 
         private void InitializeSquares(List<Square> squares)
         {
-            squares.Add(new Square(textBlock01, 1));
-            squares.Add(new Square(textBlock02, 2));
-            squares.Add(new Square(textBlock03, 3));
-            squares.Add(new Square(textBlock04, 4));
-            squares.Add(new Square(textBlock05, 5));
-            squares.Add(new Square(textBlock06, 6));
-            squares.Add(new Square(textBlock07, 7));
-            squares.Add(new Square(textBlock08, 8));
-            squares.Add(new Square(textBlock09, 9));
-            squares.Add(new Square(textBlock10, 10));
-            squares.Add(new Square(textBlock11, 11));
+            squares.Add(new Square(image01, 1));
+            squares.Add(new Square(image02, 2));
+            squares.Add(new Square(image03, 3));
+            squares.Add(new Square(image04, 4));
+            squares.Add(new Square(image05, 5));
+            squares.Add(new Square(image06, 6));
+            squares.Add(new Square(image07, 7));
+            squares.Add(new Square(image08, 8));
+            squares.Add(new Square(image09, 9));
+            squares.Add(new Square(image10, 10));
+            squares.Add(new Square(image11, 11));
             squares.Add(null);
         }
 
