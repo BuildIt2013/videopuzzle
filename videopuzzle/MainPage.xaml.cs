@@ -125,6 +125,7 @@ namespace videopuzzle
                 else squares.Add(null);                    
             }
             isGameStarted = false;
+            
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
@@ -147,9 +148,11 @@ namespace videopuzzle
 
         private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
-            images.Last().Visibility = System.Windows.Visibility.Collapsed;
-            puzzleBoard.Shuffle();
-            
+            if (isGameStarted)
+            {
+                images.Last().Visibility = System.Windows.Visibility.Collapsed;
+                puzzleBoard.Shuffle();
+            }
         }
 
         private void ApplicationBarNext_Click(object sender, EventArgs e)
