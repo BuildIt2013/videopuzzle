@@ -34,7 +34,7 @@
             <Canvas x:Name="MainGrid" Width="450" Height="600" ManipulationStarted="MainGrid_ManipulationStarted">
                 <ProgressBar x:Name="progressbarIndeterminateDownload" Height="46" Canvas.Left="10" Canvas.Top="249" Width="440" IsIndeterminate="True" Canvas.ZIndex="1" Visibility="Collapsed"/>
                 <TextBlock x:Name="progressbarDescription" Canvas.Left="185" TextWrapping="Wrap" Text="Loading..." Canvas.Top="268" Width="90" Canvas.ZIndex="1" Visibility="Collapsed"/>
-                <Button  x:Name="playButton" Canvas.ZIndex="1" Width="300" Margin="75, 400, 75, 0" Tap="playButton_Tap" Background="#7F000000" Visibility="Collapsed">Play</Button>
+                <Button  x:Name="playButton" Canvas.ZIndex="1" Width="300" Height="100" Margin="75, 400, 75, 0" Tap="playButton_Tap" Background="#7F000000" Visibility="Visible">Play</Button>
             </Canvas>
         </Grid>
 
