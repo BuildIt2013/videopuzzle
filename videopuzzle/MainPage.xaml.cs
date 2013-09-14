@@ -26,6 +26,7 @@ namespace videopuzzle
         private PuzzleBoard puzzleBoard;
         private List<Square> squares;
         private EditingSession _session;
+        private List<Image> images;
         Random rand;
 
         // Constructor
@@ -33,7 +34,8 @@ namespace videopuzzle
         {
             InitializeComponent();
             squares = new List<Square>();
-            InitializeSquares(squares);
+            images = new List<Image>();
+            InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
             rand = new Random();
             SetImageBackgrounds();
@@ -63,43 +65,13 @@ namespace videopuzzle
 
             try
             {
-                // Decode the jpeg for showing the original image
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 0, 150, 150)));
-                await _session.RenderToImageAsync(Image01, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 0, 150, 150)));
-                await _session.RenderToImageAsync(Image02, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 0, 150, 150)));
-                await _session.RenderToImageAsync(Image03, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 150, 150, 150)));
-                await _session.RenderToImageAsync(Image04, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 150, 150, 150)));
-                await _session.RenderToImageAsync(Image05, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 150, 150, 150)));
-                await _session.RenderToImageAsync(Image06, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 300, 150, 150)));
-                await _session.RenderToImageAsync(Image07, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 300, 150, 150)));
-                await _session.RenderToImageAsync(Image08, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 300, 150, 150)));
-                await _session.RenderToImageAsync(Image09, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(0, 450, 150, 150)));
-                await _session.RenderToImageAsync(Image10, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(150, 450, 150, 150)));
-                await _session.RenderToImageAsync(Image11, OutputOption.PreserveAspectRatio);
-                _session.UndoAll();
-                _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(300, 450, 150, 150)));
-                await _session.RenderToImageAsync(Image12, OutputOption.PreserveAspectRatio);
-                Image12.Visibility = System.Windows.Visibility.Collapsed;
+
+                foreach (Image img in images) 
+                {
+                    _session.UndoAll();
+                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                    await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                }
 
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
@@ -122,20 +94,21 @@ namespace videopuzzle
             SplitImage(e.ChosenPhoto);
         }
 
-        private void InitializeSquares(List<Square> squares)
+        private void InitializeSquares()
         {
-            squares.Add(new Square(Image01, 1));
-            squares.Add(new Square(Image02, 2));
-            squares.Add(new Square(Image03, 3));
-            squares.Add(new Square(Image04, 4));
-            squares.Add(new Square(Image05, 5));
-            squares.Add(new Square(Image06, 6));
-            squares.Add(new Square(Image07, 7));
-            squares.Add(new Square(Image08, 8));
-            squares.Add(new Square(Image09, 9));
-            squares.Add(new Square(Image10, 10));
-            squares.Add(new Square(Image11, 11));
-            squares.Add(null);
+            for (int i = 0; i < 12; i++)
+            {
+                Image img = new Image();
+                img.Width = 150;
+                img.Height = 150;
+                Canvas.SetLeft(img, (i%3)*150);
+                Canvas.SetTop(img, (i/3)*150);
+                MainGrid.Children.Add(img);
+                images.Add(img);
+                if (i != 11) squares.Add(new Square(img, i + 1));
+                else squares.Add(null);                    
+            }
+            images.Last().Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
@@ -146,16 +119,16 @@ namespace videopuzzle
                 
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
-                    Image12.Visibility = System.Windows.Visibility.Visible;
+                    images.Last().Visibility = System.Windows.Visibility.Visible;
                 else
-                    Image12.Visibility = System.Windows.Visibility.Collapsed;
+                    images.Last().Visibility = System.Windows.Visibility.Collapsed;
             }
             
         }
 
         private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
-            Image12.Visibility = System.Windows.Visibility.Collapsed;
+            images.Last().Visibility = System.Windows.Visibility.Collapsed;
             puzzleBoard.Shuffle();
             
         }
