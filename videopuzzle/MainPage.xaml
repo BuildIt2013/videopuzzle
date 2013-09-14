@@ -27,8 +27,8 @@
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
             <Canvas x:Name="MainGrid" Width="450" Height="600" ManipulationStarted="MainGrid_ManipulationStarted">
-                <ProgressBar x:Name="progressbarIndeterminateDownload" Height="46" Canvas.Left="10" Canvas.Top="249" Width="440" IsIndeterminate="True" Visibility="Collapsed"/>
-                <TextBlock x:Name="progressbarDescription" Canvas.Left="185" TextWrapping="Wrap" Text="Loading..." Canvas.Top="268" Width="90" Visibility="Collapsed"/>
+                <ProgressBar x:Name="progressbarIndeterminateDownload" Height="46" Canvas.Left="10" Canvas.Top="249" Width="440" IsIndeterminate="True" Canvas.ZIndex="1" Visibility="Collapsed"/>
+                <TextBlock x:Name="progressbarDescription" Canvas.Left="185" TextWrapping="Wrap" Text="Loading..." Canvas.Top="268" Width="90" Canvas.ZIndex="1" Visibility="Collapsed"/>
             </Canvas>
         </Grid>
 
