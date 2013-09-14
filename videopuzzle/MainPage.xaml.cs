@@ -17,7 +17,10 @@ using Nokia.InteropServices.WindowsRuntime;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.Xna.Framework.Media;
-using System.Windows.Threading; 
+using System.Windows.Threading;
+using Windows.Phone.Media.Capture;
+using Microsoft.Devices;
+using System.Threading.Tasks;
 
 
 namespace videopuzzle
@@ -32,6 +35,13 @@ namespace videopuzzle
         private int playTime;
         private bool isGameStarted = false;
         Random rand;
+
+        private AudioVideoCaptureDevice camera;
+        private WriteableBitmap frameBitmap;
+        private DispatcherTimer looper;
+
+        private const double MediaElementWidth = 640;
+        private const double MediaElementHeight = 480;
 
         // Constructor
         public MainPage()
@@ -87,7 +97,7 @@ namespace videopuzzle
 
             try
             {
-
+                stream.Position = 0;
                 foreach (Image img in images) 
                 {
                     _session.UndoAll();
@@ -98,6 +108,30 @@ namespace videopuzzle
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
                 playButton.Visibility = System.Windows.Visibility.Visible;
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Exception:" + exception.Message);
+                return;
+            }
+
+        }
+
+
+        private async void SplitImageFromBitmap(WriteableBitmap bmp)
+        {
+            _session = new EditingSession(bmp.AsBitmap());
+            _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
+            _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
+            try
+            {             
+                foreach (Image img in images)
+                {           
+                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                    await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                    if (_session.CanUndo()) _session.Undo();
+                }
 
             }
             catch (Exception exception)
@@ -195,9 +229,14 @@ namespace videopuzzle
             InitializeSquares();
         }
 
-        private void ApplicationBarLive_Click(object sender, EventArgs e)
+        private async void ApplicationBarLive_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Go Live!");
+            await initCamera(CameraSensorLocation.Back);
+            looper = new DispatcherTimer();
+            looper.Interval = new TimeSpan(0, 0, 0, 0, 1000);
+            looper.Tick += processFrame;
+            looper.Start();
+            
         }
 
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -220,6 +259,43 @@ namespace videopuzzle
             return minutes + ":" + seconds;
         }
 
+        private async Task initCamera(CameraSensorLocation sensorLocation)
+        {
+            Windows.Foundation.Size res = new Windows.Foundation.Size(MediaElementWidth, MediaElementHeight);
+            if (camera != null)
+            {
+                camera.Dispose();
+                camera = null;
+            }
+            camera = await AudioVideoCaptureDevice.OpenForVideoOnlyAsync(sensorLocation, res);
+
+            await camera.SetPreviewResolutionAsync(res);
+
+            frameBitmap = new WriteableBitmap((int)camera.PreviewResolution.Width,
+                   (int)camera.PreviewResolution.Height);
+
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (camera != null)
+            {
+                camera.Dispose();
+                // camera.Initialized += cam_Initialized;
+            }
+        }
+
+        private void processFrame(object o, EventArgs e)
+        {
+            camera.GetPreviewBufferArgb(frameBitmap.Pixels);
+            SplitImageFromBitmap(frameBitmap);
+
+        }
+
+        private void stopTimer(object sender, System.Windows.RoutedEventArgs e)
+        {
+            looper.Stop();
+        }
 
     }
 }
