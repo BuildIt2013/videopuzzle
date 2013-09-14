@@ -27,7 +27,7 @@ namespace videopuzzle
             puzzleBoard.MoveTile(8);
             puzzleBoard.MoveTile(7);
             puzzleBoard.MoveTile(6);
-            puzzleBoard.MoveTile(0, 2);
+            puzzleBoard.MoveTile(0, 1);
             
 
             mediaElement = new MediaElement();

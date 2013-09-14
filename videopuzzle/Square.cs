@@ -32,7 +32,6 @@ namespace videopuzzle
         {
             Canvas.SetTop(block, y * 152);
             Canvas.SetLeft(block, x * 152);
-            //TODO: Implement
         }
      
     }
