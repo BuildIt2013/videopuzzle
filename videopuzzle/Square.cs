@@ -16,6 +16,14 @@ namespace videopuzzle
         {
             return;
         }
+
+        // This function takes the desired position in the range of 3x4 and
+        // converts the coordinates to be used in xaml. The textblock properties
+        // are updated according to the calculated values.
+        public void SetPosition(int x, int y)
+        {
+            //TODO: Implement
+        }
      
     }
 }

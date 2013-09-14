@@ -25,14 +25,17 @@ namespace videopuzzle
             int emptyIndex = GetEmptyIndex();
             List<int> emptyCoordinates = IndexToCoordinate(emptyIndex);
             List<int> tileCoordinates = IndexToCoordinate(tileNumber);
+
+            // if there is a difference of 1 in only the other coordinate, swap tiles
             if((Math.Abs(emptyCoordinates[0]-tileCoordinates[0])==1 && Math.Abs(emptyCoordinates[1]-tileCoordinates[1])==0)
                 ||(Math.Abs(emptyCoordinates[0] - tileCoordinates[0]) == 0 && Math.Abs(emptyCoordinates[1] - tileCoordinates[1]) == 1))
             {
-                // if there is a difference of 1 in only the other coordinate, swap tiles
                 squares[emptyIndex] = squares[tileNumber];
                 squares[tileNumber] = null;
+                squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
             }
            
+            
         }
 
         private int GetEmptyIndex()
@@ -45,6 +48,7 @@ namespace videopuzzle
             return -1;
         }
 
+        // convert Coordinate values to array index
         public int CoordinateToIndex(int x, int y)
         {
             if (x > ARRAYWIDTH - 1 || y > ARRAYHEIGHT - 1)
@@ -52,6 +56,7 @@ namespace videopuzzle
             return x % ARRAYWIDTH + y * ARRAYWIDTH;
         }
 
+        // Convert array index too coordinates presented as List<int>
         public List<int> IndexToCoordinate(int idx)
         {
             return new List<int> { idx % ARRAYWIDTH, idx / ARRAYWIDTH };
@@ -60,7 +65,7 @@ namespace videopuzzle
         // shuffle tiles
         public void Shuffle()
         {
-            //TODO
+            //TODO: Implement
             return;
         }
     }
