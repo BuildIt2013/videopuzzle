@@ -162,6 +162,7 @@ namespace videopuzzle
             }
             images = new List<Image>();
             squares = new List<Square>();
+            puzzleBoard = new PuzzleBoard(squares);
             InitializeSquares();
         }
 
