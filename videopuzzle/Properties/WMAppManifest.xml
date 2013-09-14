@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{c82af393-35f9-4a63-bb7c-57962e3efd20}" Title="videopuzzle" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="videopuzzle author" Description="Sample description" Publisher="videopuzzle" PublisherID="{a4fc609c-562f-4ea6-bd54-f1f5d20deb2b}">
+  <App xmlns="" ProductID="{c82af393-35f9-4a63-bb7c-57962e3efd20}" Title="Sliding Puzzle" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Build It 2013 for Nokia Lumia 1020" Description="Explore beautiful images with this fun and exciting game" Publisher="Build It 2013" PublisherID="{a4fc609c-562f-4ea6-bd54-f1f5d20deb2b}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -20,17 +20,20 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>videopuzzle</Title>
+          <Title>Sliding Puzzle</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileLarge.png</LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
           <DeviceLockImageURI>
           </DeviceLockImageURI>
-          <HasLarge>
-          </HasLarge>
+          <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
