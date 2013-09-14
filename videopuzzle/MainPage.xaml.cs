@@ -144,6 +144,7 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
+            processNextFrame();
 
         }
 
@@ -240,10 +241,11 @@ namespace videopuzzle
         private async void ApplicationBarLive_Click(object sender, EventArgs e)
         {
             await initCamera(CameraSensorLocation.Back);
-            looper = new DispatcherTimer();
-            looper.Interval = new TimeSpan(0, 0, 0, 0, 1000);
-            looper.Tick += processFrame;
-            looper.Start();
+            processNextFrame();
+            //looper = new DispatcherTimer();
+            //looper.Interval = new TimeSpan(0, 0, 0, 0, 1000);
+            //looper.Tick += processFrame;
+            //looper.Start();
             
         }
 
@@ -284,20 +286,24 @@ namespace videopuzzle
 
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        private void CameraOff()
         {
             if (camera != null)
             {
                 camera.Dispose();
-                // camera.Initialized += cam_Initialized;
             }
         }
 
         private void processFrame(object o, EventArgs e)
         {
+            processNextFrame();
+
+        }
+
+        private void processNextFrame() 
+        {
             camera.GetPreviewBufferArgb(frameBitmap.Pixels);
             SplitImageFromBitmap(frameBitmap);
-
         }
 
         private void stopTimer(object sender, System.Windows.RoutedEventArgs e)
