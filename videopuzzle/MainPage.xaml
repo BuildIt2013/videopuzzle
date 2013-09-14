@@ -76,10 +76,13 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/new.png" Text="Open" Click="ApplicationBarNew_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Shuffle" Click="ApplicationBarShuffle_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemSettings_Click" Text="settings"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

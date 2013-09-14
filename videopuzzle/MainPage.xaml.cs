@@ -174,6 +174,11 @@ namespace videopuzzle
             chooser.Show();
         }
 
+        private void ApplicationBarMenuItemSettings_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+        }
+
 
     }
 }
