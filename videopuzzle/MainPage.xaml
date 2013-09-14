@@ -47,18 +47,17 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
             <Canvas x:Name="MainGrid" Background="Aqua" ManipulationStarted="MainGrid_ManipulationStarted">
-                <TextBlock x:Name="textBlock01" Width="150" Height="150" FontSize="108" TextAlignment="Center">1</TextBlock>
-                <TextBlock x:Name="textBlock02" Width="150" Height="150" FontSize="108" Canvas.Left="152" TextAlignment="Center">2</TextBlock>
-                <TextBlock x:Name="textBlock03" Width="150" Height="150" FontSize="108" Canvas.Left="304" TextAlignment="Center">3</TextBlock>
-                <TextBlock x:Name="textBlock04" Width="150" Height="150" FontSize="108" Canvas.Top="152" TextAlignment="Center">4</TextBlock>
-                <TextBlock x:Name="textBlock05" Width="150" Height="150" FontSize="108" Canvas.Top="152" Canvas.Left="152" TextAlignment="Center">5</TextBlock>
-                <TextBlock x:Name="textBlock06" Width="150" Height="150" FontSize="108" Canvas.Top="152" Canvas.Left="304" TextAlignment="Center">6</TextBlock>
-                <TextBlock x:Name="textBlock07" Width="150" Height="150" FontSize="108" Canvas.Top="304" TextAlignment="Center">7</TextBlock>
-                <TextBlock x:Name="textBlock08" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="152" TextAlignment="Center">8</TextBlock>
-                <TextBlock x:Name="textBlock09" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="304" TextAlignment="Center">9</TextBlock>
-                <TextBlock x:Name="textBlock10" Width="150" Height="150" FontSize="108" Canvas.Top="456" TextAlignment="Center">10</TextBlock>
-                <TextBlock x:Name="textBlock11" Width="150" Height="150" FontSize="108" Canvas.Top="456" Canvas.Left="152" TextAlignment="Center">11</TextBlock>
-                <!--<Rectangle x:Name="emptyRectangle" Width="150" Height="150" Canvas.Top="456" Canvas.Left="304" Fill="Gray"></Rectangle>-->
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image01" Width="150" Height="150"></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image02" Width="150" Height="150"  Canvas.Left="152" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image03" Width="150" Height="150"  Canvas.Left="304" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image04" Width="150" Height="150"  Canvas.Top="152" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image05" Width="150" Height="150"  Canvas.Top="152" Canvas.Left="152" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image06" Width="150" Height="150"  Canvas.Top="152" Canvas.Left="304" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image07" Width="150" Height="150"  Canvas.Top="304" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image08" Width="150" Height="150"  Canvas.Top="304" Canvas.Left="152" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image09" Width="150" Height="150"  Canvas.Top="304" Canvas.Left="304" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image10" Width="150" Height="150"  Canvas.Top="456" ></Image>
+                <Image Source="/Assets/ApplicationIcon.png" x:Name="Image11" Width="150" Height="150"  Canvas.Top="456" Canvas.Left="152" ></Image>
             </Canvas>
         </Grid>
 
