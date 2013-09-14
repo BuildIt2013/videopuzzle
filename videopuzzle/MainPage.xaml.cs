@@ -20,7 +20,9 @@ using Microsoft.Xna.Framework.Media;
 using System.Windows.Threading;
 using Windows.Phone.Media.Capture;
 using Microsoft.Devices;
-using System.Threading.Tasks;
+using System.IO.IsolatedStorage;
+using System.Threading.Tasks; 
+
 
 
 namespace videopuzzle
@@ -59,9 +61,11 @@ namespace videopuzzle
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-            
+
             SetImageBackgrounds();
         }
+
+        
 
         void timer_Tick(object sender, EventArgs e)
         {
@@ -168,6 +172,7 @@ namespace videopuzzle
             }
             timer.Stop();
             isGameStarted = false;
+            
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
@@ -190,9 +195,11 @@ namespace videopuzzle
 
         private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
-            images.Last().Visibility = System.Windows.Visibility.Collapsed;
-            puzzleBoard.Shuffle();
-            
+            if (isGameStarted)
+            {
+                images.Last().Visibility = System.Windows.Visibility.Collapsed;
+                puzzleBoard.Shuffle();
+            }
         }
 
         private void ApplicationBarNext_Click(object sender, EventArgs e)
