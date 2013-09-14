@@ -163,5 +163,12 @@ namespace videopuzzle
             InitializeSquares();
         }
 
+        private void ApplicationBarLive_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Go Live!");
+        }
+
+
+
     }
 }
