@@ -153,6 +153,17 @@ namespace videopuzzle
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
 
+        private void ResetPuzzle()
+        {
+            foreach (Image im in images)
+            {
+                MainGrid.Children.Remove(im);
+            }
+            images = new List<Image>;
+            squares = new List<Square>;
+            InitializeSquares();
+        }
+
         private void ApplicationBarLive_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Go Live!");
@@ -163,6 +174,7 @@ namespace videopuzzle
             playButton.Visibility = System.Windows.Visibility.Collapsed;
             puzzleBoard.Shuffle();
         }
+
 
 
     }

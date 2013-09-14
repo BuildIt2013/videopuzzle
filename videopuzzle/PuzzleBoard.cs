@@ -42,7 +42,7 @@ namespace videopuzzle
            
             
         }
-
+              
         private int GetEmptyIndex()
         {
             for (int i = 0; i < squares.Count; i++)
