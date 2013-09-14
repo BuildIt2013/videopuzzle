@@ -16,8 +16,11 @@ namespace videopuzzle
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private MediaElement mediaElement;
         private PuzzleBoard puzzleBoard;
+        private SolidColorBrush boardColor;
+        private List<SolidColorBrush> colors;
+        Random rand;
+
         // Constructor
         public MainPage()
         {
@@ -25,13 +28,14 @@ namespace videopuzzle
             List<Square> squares = new List<Square>();
             InitializeSquares(squares);
             puzzleBoard = new PuzzleBoard(squares);
-
-            mediaElement = new MediaElement();
-            mediaElement.Source = new Uri("/Assets/Videos/gokarts.mp4", UriKind.Relative);
-            mediaElement.Volume = 100;
-            mediaElement.Play();
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            boardColor = new SolidColorBrush(Colors.Cyan);
+            colors = new List<SolidColorBrush>();
+            colors.Add(new SolidColorBrush(Colors.DarkGray));
+            colors.Add(new SolidColorBrush(Colors.Magenta));
+            colors.Add(new SolidColorBrush(Colors.Purple));
+            colors.Add(new SolidColorBrush(Colors.Yellow));
+            colors.Add(new SolidColorBrush(Colors.Blue));
+            rand = new Random();
         }
 
         private void InitializeSquares(List<Square> squares)
@@ -50,30 +54,6 @@ namespace videopuzzle
             squares.Add(null);
         }
 
-        private void textBlock09_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            return;
-        }
-       
-
-        private void textBlock11_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            // Create a WriteableBitmap and set it to the MediaElement (video).
-            // The WriteableBitmap represents a "snapshot" of the video.
-            WriteableBitmap wb = new WriteableBitmap(mediaElement, null);
-
-            // Create an image of the desired size and set its source to
-            // the WriteableBitmap representing a snapshot of the video.
-            Image image = new Image();
-            image.Height = 150;
-            image.Margin = new Thickness(10);
-            image.Source = wb;
-
-            InlineUIContainer iuc = new InlineUIContainer();
-            iuc.Child = image;
-            textBlock11.Inlines.Add(iuc);
-        }
-
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             if (e.ManipulationContainer.GetType() == typeof (TextBlock)) 
@@ -84,31 +64,26 @@ namespace videopuzzle
                 if (puzzleBoard.IsWon())
                     MainGrid.Background = new SolidColorBrush(Colors.Green);
                 else
-                    MainGrid.Background = new SolidColorBrush(Colors.Cyan);
+                    MainGrid.Background = boardColor;
             }
             
         }
 
-        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
+            MainGrid.Background = boardColor;
+            puzzleBoard.Shuffle();
+            
+        }
+
+        private void ApplicationBarNext_Click(object sender, EventArgs e)
+        {
+            var idx = (int)(rand.NextDouble() * colors.Count);
+            boardColor = colors.ElementAt(idx);
+            MainGrid.Background = boardColor;
             puzzleBoard.Shuffle();
         }
 
 
-
-        private void BuildLocalizedApplicationBar()
-        {
-            // Set the page's ApplicationBar to a new instance of ApplicationBar.
-            ApplicationBar = new ApplicationBar();
-
-            // Create a new button and set the text value to the localized string from AppResources.
-            ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-            appBarButton.Text = AppResources.AppBarButtonText;
-            ApplicationBar.Buttons.Add(appBarButton);
-
-            // Create a new menu item with the localized string from AppResources.
-            ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-            ApplicationBar.MenuItems.Add(appBarMenuItem);
-        }
     }
 }

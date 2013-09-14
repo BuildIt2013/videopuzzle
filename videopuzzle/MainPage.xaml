@@ -40,13 +40,12 @@
          -->
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="VIDEO PUZZLE" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="Play" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Tap="TextBlock_Tap"/>
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,0,0,0">
+            <TextBlock Text="Video Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
             <Canvas x:Name="MainGrid" Background="Aqua" ManipulationStarted="MainGrid_ManipulationStarted">
                 <TextBlock x:Name="textBlock01" Width="150" Height="150" FontSize="108" TextAlignment="Center">1</TextBlock>
                 <TextBlock x:Name="textBlock02" Width="150" Height="150" FontSize="108" Canvas.Left="152" TextAlignment="Center">2</TextBlock>
@@ -58,7 +57,7 @@
                 <TextBlock x:Name="textBlock08" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="152" TextAlignment="Center">8</TextBlock>
                 <TextBlock x:Name="textBlock09" Width="150" Height="150" FontSize="108" Canvas.Top="304" Canvas.Left="304" TextAlignment="Center">9</TextBlock>
                 <TextBlock x:Name="textBlock10" Width="150" Height="150" FontSize="108" Canvas.Top="456" TextAlignment="Center">10</TextBlock>
-                <TextBlock x:Name="textBlock11" Width="150" Height="150" FontSize="108" Canvas.Top="456" Canvas.Left="152" TextAlignment="Center" Tap="textBlock09_Tap">11</TextBlock>
+                <TextBlock x:Name="textBlock11" Width="150" Height="150" FontSize="108" Canvas.Top="456" Canvas.Left="152" TextAlignment="Center">11</TextBlock>
                 <!--<Rectangle x:Name="emptyRectangle" Width="150" Height="150" Canvas.Top="456" Canvas.Left="304" Fill="Gray"></Rectangle>-->
             </Canvas>
         </Grid>
@@ -71,5 +70,16 @@
             Before shipping remove this XAML and the image itself.-->
         <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
     </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Shuffle" Click="ApplicationBarShuffle_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Shuffle"/>
+                <shell:ApplicationBarMenuItem Text="Next"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
