@@ -15,7 +15,8 @@ using Microsoft.Phone.Tasks;
 using Nokia.Graphics.Imaging;
 using Nokia.InteropServices.WindowsRuntime;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime; 
+using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Xna.Framework.Media; 
 
 
 namespace videopuzzle
@@ -24,7 +25,6 @@ namespace videopuzzle
     {
         private PuzzleBoard puzzleBoard;
         private List<Square> squares;
-        private BitmapImage puzzleImage;
         private EditingSession _session;
         Random rand;
 
@@ -42,24 +42,24 @@ namespace videopuzzle
 
         private void SetImageBackgrounds() {
 
-            puzzleImage = new BitmapImage(new Uri("/Assets/Images/test-image.jpg", UriKind.Relative));
-            puzzleImage.CreateOptions = BitmapCreateOptions.None;
-            puzzleImage.ImageOpened += img_ImageOpened;
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += client_OpenReadCompleted;
+            client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
             
         }
 
-        void img_ImageOpened(object sender, RoutedEventArgs e)
+        void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
-            
-        }
-
-        private async void PickImageCallback(object sender, PhotoResult e)
-        {
-            if (e.TaskResult != TaskResult.OK)
+            if (e.Error == null)
             {
-                return;
+                SplitImage(e.Result);
             }
-            _session = await EditingSessionFactory.CreateEditingSessionAsync(e.ChosenPhoto);
+        }
+
+        private async void SplitImage(Stream stream)
+        {
+            _session = await EditingSessionFactory.CreateEditingSessionAsync(stream);
+
             try
             {
                 // Decode the jpeg for showing the original image
@@ -107,6 +107,16 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
+
+        }
+
+        private void PickImageCallback(object sender, PhotoResult e)
+        {
+            if (e.TaskResult != TaskResult.OK)
+            {
+                return;
+            }
+            SplitImage(e.ChosenPhoto);
         }
 
         private void InitializeSquares(List<Square> squares)
@@ -149,7 +159,7 @@ namespace videopuzzle
 
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
-            puzzleBoard.Shuffle();
+            SetImageBackgrounds();
         }
 
         private void ApplicationBarNew_Click(object sender, EventArgs e)
