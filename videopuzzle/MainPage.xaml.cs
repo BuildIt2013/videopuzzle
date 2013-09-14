@@ -152,6 +152,11 @@ namespace videopuzzle
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
 
+        private void ApplicationBarLive_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Go Live!");
+        }
+
 
     }
 }
