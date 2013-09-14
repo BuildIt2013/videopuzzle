@@ -59,6 +59,10 @@
                 <Image x:Name="Image10" Width="150" Height="150"  Canvas.Top="450" ></Image>
                 <Image x:Name="Image11" Width="150" Height="150"  Canvas.Top="450" Canvas.Left="150" ></Image>
                 <Image x:Name="Image12" Width="150" Height="150"  Canvas.Top="450" Canvas.Left="300"></Image>
+
+                <ProgressBar x:Name="progressbarIndeterminateDownload" Height="46" Canvas.Left="10" Canvas.Top="249" Width="440" IsIndeterminate="True" Visibility="Collapsed"/>
+                <TextBlock x:Name="progressbarDescription" Canvas.Left="185" TextWrapping="Wrap" Text="Loading..." Canvas.Top="268" Width="90" Visibility="Collapsed"/>
+
             </Canvas>
         </Grid>
 

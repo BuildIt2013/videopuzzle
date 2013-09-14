@@ -45,7 +45,8 @@ namespace videopuzzle
             WebClient client = new WebClient();
             client.OpenReadCompleted += client_OpenReadCompleted;
             client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
-            
+            progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
+            progressbarDescription.Visibility = System.Windows.Visibility.Visible;
         }
 
         void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
@@ -100,6 +101,8 @@ namespace videopuzzle
                 await _session.RenderToImageAsync(Image12, OutputOption.PreserveAspectRatio);
                 Image12.Visibility = System.Windows.Visibility.Collapsed;
 
+                progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
+                progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
 
             }
             catch (Exception exception)
