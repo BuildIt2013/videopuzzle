@@ -84,6 +84,11 @@ namespace videopuzzle
             
         }
 
+        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            puzzleBoard.Shuffle();
+        }
+
 
 
         // Sample code for building a localized ApplicationBar

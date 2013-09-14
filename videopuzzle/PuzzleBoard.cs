@@ -70,7 +70,12 @@ namespace videopuzzle
         // shuffle tiles
         public void Shuffle()
         {
-            //TODO: Implement
+            Random rand = new Random();
+            for (int i = 0; i < 1000; i++) 
+            {
+                int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
+                MoveTile(randTile);
+            }
             return;
         }
     }
