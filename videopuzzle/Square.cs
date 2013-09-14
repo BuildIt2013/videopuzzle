@@ -11,10 +11,10 @@ namespace videopuzzle
     class Square
     {
         private const int TILEDIMENSION = 150;
-        public TextBlock block;
+        public Image block;
         public int number;
 
-        public Square(TextBlock bl, int nmbr)
+        public Square(Image bl, int nmbr)
         {
             block = bl;
             number = nmbr;
