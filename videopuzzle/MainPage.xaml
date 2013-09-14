@@ -45,7 +45,7 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/new.png" Text="Open" Click="ApplicationBarNew_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/feature.camera.png" Text="Live" Click="ApplicationBarLive_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Reshuffle" Click="ApplicationBarShuffle_Click"/>
+            <shell:ApplicationBarIconButton x:Name="reshuffleButton" IconUri="/Assets/Images/refresh.png" Text="Reshuffle" Click="ApplicationBarShuffle_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemSettings_Click" Text="settings"/>

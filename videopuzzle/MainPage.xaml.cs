@@ -37,24 +37,32 @@ namespace videopuzzle
         public MainPage()
         {
             InitializeComponent();
+
+            playTime = 0;
+            UpdateTime();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            rand = new Random();
+
             squares = new List<Square>();
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-            rand = new Random();
-            playTime = 0;
-            PlayTimer.Text = getTimeString(playTime);
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_Tick;
+            
             SetImageBackgrounds();
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
-            PlayTimer.Text = getTimeString(++playTime);
+            playTime++;
+            UpdateTime();
         }
 
+        private void UpdateTime() 
+        {
+            PlayTimer.Text = getTimeString(playTime);
+        }
 
         private void SetImageBackgrounds() {
 
@@ -124,6 +132,7 @@ namespace videopuzzle
                 if (i != 11) squares.Add(new Square(img, i + 1));
                 else squares.Add(null);                    
             }
+            timer.Stop();
             isGameStarted = false;
             
         }
@@ -185,6 +194,7 @@ namespace videopuzzle
             squares = new List<Square>();
             puzzleBoard = new PuzzleBoard(squares);
             playTime = 0;
+            UpdateTime();
             InitializeSquares();
         }
 
@@ -199,6 +209,7 @@ namespace videopuzzle
             timer.Start();
             puzzleBoard.Shuffle();
             isGameStarted = true;
+           
         }
 
 
