@@ -10,6 +10,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using videopuzzle.Resources;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace videopuzzle
 {
@@ -81,7 +82,9 @@ namespace videopuzzle
                 int idx = ((int)Canvas.GetLeft(temp)) / 152 + ((int)Canvas.GetTop(temp)) / 152 * 3;
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
-                    MessageBox.Show("You Won!! Wuhuu!");
+                    MainGrid.Background = new SolidColorBrush(Colors.Green);
+                else
+                    MainGrid.Background = new SolidColorBrush(Colors.Cyan);
             }
             
         }
@@ -93,20 +96,19 @@ namespace videopuzzle
 
 
 
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
+        private void BuildLocalizedApplicationBar()
+        {
+            // Set the page's ApplicationBar to a new instance of ApplicationBar.
+            ApplicationBar = new ApplicationBar();
 
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
+            // Create a new button and set the text value to the localized string from AppResources.
+            ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
+            appBarButton.Text = AppResources.AppBarButtonText;
+            ApplicationBar.Buttons.Add(appBarButton);
 
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
+            // Create a new menu item with the localized string from AppResources.
+            ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
     }
 }

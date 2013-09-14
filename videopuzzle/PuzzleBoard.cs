@@ -81,20 +81,13 @@ namespace videopuzzle
 
         public bool IsWon()
         {
-            if (squares[11] == null)
-            {
-                int compareValue = -1;
-                foreach(Square sq in squares)
+            for (int i = 0; i < squares.Count - 1; i++) {
+                if (squares[i] == null || squares[i].number != i + 1) 
                 {
-                    if (compareValue < sq.number)
-                    {
-                        compareValue = sq.number;
-                    }
                     return false;
                 }
-                return true;
             }
-            return false;
+            return true;
         }
     }
 }
