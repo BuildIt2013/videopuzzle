@@ -28,11 +28,11 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <TextBlock Margin="0,-13,0,0" TextWrapping="Wrap" Text="settings" VerticalAlignment="Top" FontSize="72"/>
             <Button Content="Return" HorizontalAlignment="Left" Margin="116,598,0,0" VerticalAlignment="Top" Width="217" Click="Button_Click"/>
-            <RadioButton Content="3 x 4" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked" GroupName="GroupOne" IsChecked="True"/>
-            <RadioButton Content="6 x 8" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
+            <RadioButton Content="3 x 4" x:Name="radioButton1" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
+            <RadioButton Content="6 x 8" x:Name="radioButton2" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
             <TextBlock Margin="10,115,21,0" TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
-            <tk:ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,294,39,0" RenderTransformOrigin="0.479,0.444" Content="" Height="95" Width="150"/>
-            <TextBlock Margin="10,294,237,0" TextWrapping="Wrap" Text="Auto-shuffle" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+            <tk:ToggleSwitch x:Name="offlineToggle" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,321,39,0" RenderTransformOrigin="0.479,0.444" Height="109" Width="385"/>
+            <TextBlock Margin="10,294,237,0" TextWrapping="Wrap" Text="Offline mode" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
         </Grid>
         <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,36,12"/>
     </Grid>

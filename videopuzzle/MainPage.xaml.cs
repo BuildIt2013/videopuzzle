@@ -17,7 +17,8 @@ using Nokia.InteropServices.WindowsRuntime;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.Xna.Framework.Media;
-using System.Windows.Threading; 
+using System.Windows.Threading;
+using System.IO.IsolatedStorage; 
 
 
 namespace videopuzzle
@@ -49,9 +50,11 @@ namespace videopuzzle
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-            
+
             SetImageBackgrounds();
         }
+
+        
 
         void timer_Tick(object sender, EventArgs e)
         {
