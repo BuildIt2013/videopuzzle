@@ -131,8 +131,9 @@ namespace videopuzzle
             try
             {             
                 foreach (Image img in images)
-                {           
-                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                {
+                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
+                    //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
                     await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                     if (_session.CanUndo()) _session.Undo();
                 }
