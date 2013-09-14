@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -26,9 +27,12 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <TextBlock Margin="0,-13,0,0" TextWrapping="Wrap" Text="settings" VerticalAlignment="Top" FontSize="72"/>
-            <Button Content="Apply" HorizontalAlignment="Left" Margin="10,597,0,0" VerticalAlignment="Top" Width="217" Click="Button_Click"/>
-            <Button Content="Cancel" HorizontalAlignment="Left" Margin="232,597,0,0" VerticalAlignment="Top" Width="214"/>
-
+            <Button Content="Return" HorizontalAlignment="Left" Margin="116,598,0,0" VerticalAlignment="Top" Width="217" Click="Button_Click"/>
+            <RadioButton Content="3 x 4" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked" GroupName="GroupOne" IsChecked="True"/>
+            <RadioButton Content="6 x 8" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
+            <TextBlock Margin="10,115,21,0" TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+            <tk:ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,294,39,0" RenderTransformOrigin="0.479,0.444" Content="" Height="95" Width="150"/>
+            <TextBlock Margin="10,294,237,0" TextWrapping="Wrap" Text="Auto-shuffle" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
         </Grid>
         <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,36,12"/>
     </Grid>
