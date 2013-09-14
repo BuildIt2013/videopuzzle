@@ -16,7 +16,8 @@ using Nokia.Graphics.Imaging;
 using Nokia.InteropServices.WindowsRuntime;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Microsoft.Xna.Framework.Media; 
+using Microsoft.Xna.Framework.Media;
+using System.Windows.Threading; 
 
 
 namespace videopuzzle
@@ -27,6 +28,8 @@ namespace videopuzzle
         private List<Square> squares;
         private EditingSession _session;
         private List<Image> images;
+        private DispatcherTimer timer;
+        private int playTime;
         Random rand;
 
         // Constructor
@@ -38,7 +41,17 @@ namespace videopuzzle
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
             rand = new Random();
+            playTime = 0;
+            PlayTimer.Text = getTimeString(playTime);
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
             SetImageBackgrounds();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            PlayTimer.Text = getTimeString(++playTime);
         }
 
 
@@ -121,7 +134,10 @@ namespace videopuzzle
                 
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
+                {
+                    timer.Stop();
                     images.Last().Visibility = System.Windows.Visibility.Visible;
+                }
                 else
                     images.Last().Visibility = System.Windows.Visibility.Collapsed;
             }
@@ -164,6 +180,7 @@ namespace videopuzzle
             images = new List<Image>();
             squares = new List<Square>();
             puzzleBoard = new PuzzleBoard(squares);
+            playTime = 0;
             InitializeSquares();
         }
 
@@ -175,9 +192,20 @@ namespace videopuzzle
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
+            timer.Start();
             puzzleBoard.Shuffle();
         }
 
+
+        private static string getTimeString(int secs)
+        {
+            int min = secs / 60;
+            int sec = secs % 60;
+            string minutes = (min<10)?"0"+min.ToString():min.ToString();
+            string seconds = (sec < 10) ? "0" + sec.ToString() : sec.ToString();
+            
+            return minutes + ":" + seconds;
+        }
 
 
     }
