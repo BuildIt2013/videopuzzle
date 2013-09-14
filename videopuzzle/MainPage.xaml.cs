@@ -92,6 +92,7 @@ namespace videopuzzle
             {
                 return;
             }
+            ResetPuzzle();
             SplitImage(e.ChosenPhoto);
         }
 
