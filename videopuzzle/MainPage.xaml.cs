@@ -80,6 +80,8 @@ namespace videopuzzle
                 TextBlock temp = (TextBlock)e.ManipulationContainer;
                 int idx = ((int)Canvas.GetLeft(temp)) / 152 + ((int)Canvas.GetTop(temp)) / 152 * 3;
                 puzzleBoard.MoveTile(idx);
+                if (puzzleBoard.IsWon())
+                    MessageBox.Show("You Won!! Wuhuu!");
             }
             
         }
