@@ -30,6 +30,7 @@ namespace videopuzzle
         private List<Image> images;
         private DispatcherTimer timer;
         private int playTime;
+        private bool isGameStarted = false;
         Random rand;
 
         // Constructor
@@ -123,12 +124,12 @@ namespace videopuzzle
                 if (i != 11) squares.Add(new Square(img, i + 1));
                 else squares.Add(null);                    
             }
-            images.Last().Visibility = System.Windows.Visibility.Collapsed;
+            isGameStarted = false;
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            if (e.ManipulationContainer.GetType() != typeof (Canvas)) 
+            if (e.ManipulationContainer.GetType() != typeof (Canvas) && isGameStarted) 
             {
                 int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
                 
@@ -194,6 +195,7 @@ namespace videopuzzle
             playButton.Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
+            isGameStarted = true;
         }
 
 
