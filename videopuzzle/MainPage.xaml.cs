@@ -40,26 +40,25 @@ namespace videopuzzle
 
         private void InitializeSquares(List<Square> squares)
         {
-            squares.Add(new Square(image01, 1));
-            squares.Add(new Square(image02, 2));
-            squares.Add(new Square(image03, 3));
-            squares.Add(new Square(image04, 4));
-            squares.Add(new Square(image05, 5));
-            squares.Add(new Square(image06, 6));
-            squares.Add(new Square(image07, 7));
-            squares.Add(new Square(image08, 8));
-            squares.Add(new Square(image09, 9));
-            squares.Add(new Square(image10, 10));
-            squares.Add(new Square(image11, 11));
+            squares.Add(new Square(Image01, 1));
+            squares.Add(new Square(Image02, 2));
+            squares.Add(new Square(Image03, 3));
+            squares.Add(new Square(Image04, 4));
+            squares.Add(new Square(Image05, 5));
+            squares.Add(new Square(Image06, 6));
+            squares.Add(new Square(Image07, 7));
+            squares.Add(new Square(Image08, 8));
+            squares.Add(new Square(Image09, 9));
+            squares.Add(new Square(Image10, 10));
+            squares.Add(new Square(Image11, 11));
             squares.Add(null);
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            if (e.ManipulationContainer.GetType() == typeof (TextBlock)) 
+            if (e.ManipulationContainer.GetType() != typeof (Canvas)) 
             {
-                TextBlock temp = (TextBlock)e.ManipulationContainer;
-                int idx = ((int)Canvas.GetLeft(temp)) / 152 + ((int)Canvas.GetTop(temp)) / 152 * 3;
+                int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 152 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 152 * 3;
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
                     MainGrid.Background = new SolidColorBrush(Colors.Green);
