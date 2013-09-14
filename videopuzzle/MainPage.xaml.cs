@@ -75,6 +75,7 @@ namespace videopuzzle
 
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
+                playButton.Visibility = System.Windows.Visibility.Visible;
 
             }
             catch (Exception exception)
@@ -101,8 +102,8 @@ namespace videopuzzle
                 Image img = new Image();
                 img.Width = 150;
                 img.Height = 150;
-                Canvas.SetLeft(img, (i%3)*150);
-                Canvas.SetTop(img, (i/3)*150);
+                Canvas.SetLeft(img, (i%3)*150); // columns
+                Canvas.SetTop(img, (i/3)*150); // rows
                 MainGrid.Children.Add(img);
                 images.Add(img);
                 if (i != 11) squares.Add(new Square(img, i + 1));
@@ -155,6 +156,12 @@ namespace videopuzzle
         private void ApplicationBarLive_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Go Live!");
+        }
+
+        private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            playButton.Visibility = System.Windows.Visibility.Collapsed;
+            puzzleBoard.Shuffle();
         }
 
 

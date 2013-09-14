@@ -21,14 +21,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,12,12,0">
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="12,12,12,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />          
+            </Grid.ColumnDefinitions>
             <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
-        </StackPanel>
+            <TextBlock Grid.Column="1" TextAlignment="Right" x:Name="PlayTimer" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
+        </Grid>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">
             <Canvas x:Name="MainGrid" Width="450" Height="600" ManipulationStarted="MainGrid_ManipulationStarted">
                 <ProgressBar x:Name="progressbarIndeterminateDownload" Height="46" Canvas.Left="10" Canvas.Top="249" Width="440" IsIndeterminate="True" Canvas.ZIndex="1" Visibility="Collapsed"/>
                 <TextBlock x:Name="progressbarDescription" Canvas.Left="185" TextWrapping="Wrap" Text="Loading..." Canvas.Top="268" Width="90" Canvas.ZIndex="1" Visibility="Collapsed"/>
+                <Button  x:Name="playButton" Canvas.ZIndex="1" Width="300" Margin="75, 400, 75, 0" Tap="playButton_Tap" Background="#7F000000" Visibility="Collapsed">Play</Button>
             </Canvas>
         </Grid>
 
@@ -39,7 +45,7 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/new.png" Text="Open" Click="ApplicationBarNew_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/feature.camera.png" Text="Live" Click="ApplicationBarLive_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Shuffle" Click="ApplicationBarShuffle_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/Images/refresh.png" Text="Reshuffle" Click="ApplicationBarShuffle_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemSettings_Click" Text="settings"/>
