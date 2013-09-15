@@ -66,7 +66,7 @@ namespace videopuzzle
         }
 
         
-
+        // ***************** THESE FUNCTIONS ARE FOR PLAYTIME TIMER *******************
         void timer_Tick(object sender, EventArgs e)
         {
             playTime++;
@@ -77,6 +77,12 @@ namespace videopuzzle
         {
             PlayTimer.Text = getTimeString(playTime);
         }
+
+        private void ResetTime()
+        {
+            playTime = 0;
+        }
+        //********************************************************************************
 
         private void SetImageBackgrounds() {
 
@@ -148,6 +154,7 @@ namespace videopuzzle
 
         }
 
+        // In this function the user picks the desired image
         private void PickImageCallback(object sender, PhotoResult e)
         {
             if (e.TaskResult != TaskResult.OK)
@@ -195,18 +202,22 @@ namespace videopuzzle
             
         }
 
+        // ********* HERE ARE THE APPLICATIONBAR BUTTON CALLBACK FUNCTIONS *************
         private void ApplicationBarShuffle_Click(object sender, EventArgs e)
         {
             if (isGameStarted)
             {
                 images.Last().Visibility = System.Windows.Visibility.Collapsed;
                 puzzleBoard.Shuffle();
+                ResetTime();
+                UpdateTime();
             }
         }
-
+        
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
             ResetPuzzle();
+            ResetTime();
             SetImageBackgrounds();
         }
 
@@ -223,7 +234,7 @@ namespace videopuzzle
         {
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
-
+        // **************************************************************************
         private void ResetPuzzle()
         {
             foreach (Image im in images)
