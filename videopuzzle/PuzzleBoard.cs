@@ -94,9 +94,23 @@ namespace videopuzzle
             }
             else
             {
+                int randTile = 43;
                 for (int i = 0; i < 10000; i++)
                 {
-                    int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
+                    int temp = randTile;
+                    int direction = (int)(rand.NextDouble() * 4);
+                    if (direction == 0)
+                        temp = temp - 1;
+                    else if (direction == 1)
+                        temp = temp + 1;
+                    else if (direction == 2)
+                        temp = temp - 6;
+                    else
+                        temp = temp + 6;
+
+                    if (temp >= 0 && temp < 48)
+                        randTile = temp;
+//                    randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
                     MoveTile(randTile);
                 }
             }

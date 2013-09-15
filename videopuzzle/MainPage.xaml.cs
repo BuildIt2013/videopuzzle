@@ -215,7 +215,7 @@ namespace videopuzzle
                     Canvas.SetTop(img, (i / 6) * 75); // rows
                     MainGrid.Children.Add(img);
                     images.Add(img);
-                    if (i != 11) squares.Add(new Square(img, i + 1, 75));
+                    if (i != 47) squares.Add(new Square(img, i + 1, 75));
                     else squares.Add(null);
                 }
             }
@@ -312,6 +312,7 @@ namespace videopuzzle
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
+            images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
             isGameStarted = true;
