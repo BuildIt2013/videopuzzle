@@ -365,7 +365,7 @@ Tuomo Vierros
 Janne Kemppainen
 Vidhuran Harichandra Babu
 Petri Martinmäki
-Siddhart rao";
+Siddhart Rao";
             string imageRef = @"Images from
 http://lorempixel.com/";
 
