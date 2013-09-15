@@ -37,6 +37,7 @@ namespace videopuzzle
         private DispatcherTimer timer;
         private int playTime;
         private bool isGameStarted;
+        private bool isLoading;
         Random rand;
         private PlayMode playMode;
 
@@ -87,6 +88,7 @@ namespace videopuzzle
 
         private void SetImageBackgrounds()
         {
+
             bool offline = false;
             if (IsolatedStorageSettings.ApplicationSettings.Contains("offlineMode"))
             {
@@ -102,11 +104,12 @@ namespace videopuzzle
 
                 
             } 
-            else
+            else if (!isLoading)
             {
                 WebClient client = new WebClient();
                 client.OpenReadCompleted += client_OpenReadCompleted;
                 client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
+                isLoading = true;
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
                 progressbarDescription.Visibility = System.Windows.Visibility.Visible;
             }
@@ -116,10 +119,16 @@ namespace videopuzzle
         {
             WriteableBitmap wbmp = new WriteableBitmap((BitmapImage) sender);
             SplitImageFromBitmap(wbmp);
+
         }
 
         void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
+            
+            isLoading = false;
+            progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
+            progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
+
             if (e.Error == null)
             {
                 SplitImage(e.Result);
@@ -153,6 +162,7 @@ namespace videopuzzle
 
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
+                isLoading = false;
                 playButton.Visibility = System.Windows.Visibility.Visible;
 
             }
@@ -296,7 +306,7 @@ namespace videopuzzle
             CameraOff();
             ResetPuzzle();
             ResetTime();
-            SetImageBackgrounds();
+            SetImageBackgrounds();           
         }
 
         private void ApplicationBarNew_Click(object sender, EventArgs e)
