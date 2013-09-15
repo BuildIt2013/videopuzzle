@@ -97,8 +97,34 @@ namespace videopuzzle
 
             if (offline)
             {
+                int index = (int)(rand.NextDouble() * 6);
+                string imgPath = "/Assets/Images/Offline/";
+                switch (index) 
+                {
+                    case 0: 
+                        imgPath += "0001.jpg";
+                        break;
+                    case 1:
+                        imgPath += "0002.jpg";
+                        break;
+                    case 2:
+                        imgPath += "0003.jpg";
+                        break;
+                    case 3:
+                        imgPath += "0004.jpg";
+                        break;
+                    case 4:
+                        imgPath += "0005.jpg";
+                        break;
+                    case 5:
+                        imgPath += "0006.jpg";
+                        break;
+                    default:
+                        imgPath += "0001.jpg";
+                        break;
+                }
 
-                BitmapImage bmp = new BitmapImage(new Uri("/Assets/Images/test-image.jpg", UriKind.Relative));
+                BitmapImage bmp = new BitmapImage(new Uri(imgPath, UriKind.Relative));
                 bmp.CreateOptions = BitmapCreateOptions.None;
                 bmp.ImageOpened += bmp_ImageOpened;
 
