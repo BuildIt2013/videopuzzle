@@ -38,7 +38,7 @@ namespace videopuzzle
 
         public void AnimateToPosition(int x, int y)
         {
-            Duration duration = new Duration(TimeSpan.FromMilliseconds(300));
+            Duration duration = new Duration(TimeSpan.FromMilliseconds(100));
 
             // Create two DoubleAnimations and set their properties.
             DoubleAnimation myDoubleAnimation1 = new DoubleAnimation();
