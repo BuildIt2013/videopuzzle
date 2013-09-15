@@ -35,9 +35,9 @@ namespace videopuzzle
         private List<Image> images;
         private DispatcherTimer timer;
         private int playTime;
-        private bool isGameStarted = false;
+        private bool isGameStarted;
         Random rand;
-        private PlayMode playMode = PlayMode.OnlineImage;
+        private PlayMode playMode;
 
         private AudioVideoCaptureDevice camera;
         private WriteableBitmap frameBitmap;
@@ -60,17 +60,19 @@ namespace videopuzzle
 
         private void InitializeGame()
         {
+            timer.Stop();
             playTime = 0;
             UpdateTime();
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             rand = new Random();
-
+            isGameStarted = false;
             squares = new List<Square>();
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
+            playMode = PlayMode.OnlineImage;
             SetImageBackgrounds();
         }
 
