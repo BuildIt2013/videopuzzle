@@ -52,12 +52,23 @@ namespace videopuzzle
 
         private void CancelSettings(object sender, RoutedEventArgs e)
         {
-            ExitSettings();
+            this.NavigationService.GoBack();
         }
 
         private void ExitSettings()
         {
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            try
+            {
+                while (this.NavigationService.BackStack.Any())
+                {
+                    this.NavigationService.RemoveBackEntry();
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                // RemoveBackEntry might throw this exception
+            }
         }
 
         private void SaveSettings(object sender, System.Windows.Input.GestureEventArgs e)
