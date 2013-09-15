@@ -40,7 +40,6 @@ namespace videopuzzle
 
         private AudioVideoCaptureDevice camera;
         private WriteableBitmap frameBitmap;
-        private DispatcherTimer looper;
 
         private const double MediaElementWidth = 640;
         private const double MediaElementHeight = 480;
@@ -253,10 +252,6 @@ namespace videopuzzle
         {
             await initCamera(CameraSensorLocation.Back);
             processNextFrame();
-            //looper = new DispatcherTimer();
-            //looper.Interval = new TimeSpan(0, 0, 0, 0, 1000);
-            //looper.Tick += processFrame;
-            //looper.Start();
             
         }
 
@@ -266,7 +261,6 @@ namespace videopuzzle
             timer.Start();
             puzzleBoard.Shuffle();
             isGameStarted = true;
-           
         }
 
 
@@ -283,11 +277,7 @@ namespace videopuzzle
         private async Task initCamera(CameraSensorLocation sensorLocation)
         {
             Windows.Foundation.Size res = new Windows.Foundation.Size(MediaElementWidth, MediaElementHeight);
-            if (camera != null)
-            {
-                camera.Dispose();
-                camera = null;
-            }
+            CameraOff();
             camera = await AudioVideoCaptureDevice.OpenForVideoOnlyAsync(sensorLocation, res);
 
             await camera.SetPreviewResolutionAsync(res);
@@ -302,6 +292,7 @@ namespace videopuzzle
             if (camera != null)
             {
                 camera.Dispose();
+                camera = null;
             }
         }
 
@@ -316,11 +307,5 @@ namespace videopuzzle
             camera.GetPreviewBufferArgb(frameBitmap.Pixels);
             SplitImageFromBitmap(frameBitmap);
         }
-
-        private void stopTimer(object sender, System.Windows.RoutedEventArgs e)
-        {
-            looper.Stop();
-        }
-
     }
 }
