@@ -86,14 +86,17 @@ namespace videopuzzle
         }
         //********************************************************************************
 
-        private void SetImageBackgrounds()
-        {
-
+        private void SetImageBackgrounds() {
             bool offline = false;
             if (IsolatedStorageSettings.ApplicationSettings.Contains("offlineMode"))
             {
                 offline = (bool)IsolatedStorageSettings.ApplicationSettings["offlineMode"];
             }
+            SetImageBackgrounds(offline);
+        }
+
+        private void SetImageBackgrounds(bool offline)
+        {
 
             if (offline)
             {
@@ -160,7 +163,7 @@ namespace videopuzzle
                 SplitImage(e.Result);
             }
             else {
-                SetImageBackgrounds();
+                SetImageBackgrounds(true);
             }
         }
 
