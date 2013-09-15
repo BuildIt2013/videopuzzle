@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Media.Animation;
 
 namespace videopuzzle
 {
@@ -33,6 +34,38 @@ namespace videopuzzle
         {
             Canvas.SetTop(block, y * TILEDIMENSION);
             Canvas.SetLeft(block, x * TILEDIMENSION);
-        }     
+        }
+
+        public void AnimateToPosition(int x, int y)
+        {
+            Duration duration = new Duration(TimeSpan.FromMilliseconds(300));
+
+            // Create two DoubleAnimations and set their properties.
+            DoubleAnimation myDoubleAnimation1 = new DoubleAnimation();
+            DoubleAnimation myDoubleAnimation2 = new DoubleAnimation();
+
+            myDoubleAnimation1.Duration = duration;
+            myDoubleAnimation2.Duration = duration;
+
+            Storyboard sb = new Storyboard();
+            sb.Duration = duration;
+
+            sb.Children.Add(myDoubleAnimation1);
+            sb.Children.Add(myDoubleAnimation2);
+
+            Storyboard.SetTarget(myDoubleAnimation1, block);
+            Storyboard.SetTarget(myDoubleAnimation2, block);
+
+            // Set the attached properties of Canvas.Left and Canvas.Top
+            // to be the target properties of the two respective DoubleAnimations.
+            Storyboard.SetTargetProperty(myDoubleAnimation1, new PropertyPath("(Canvas.Left)"));
+            Storyboard.SetTargetProperty(myDoubleAnimation2, new PropertyPath("(Canvas.Top)"));
+
+            myDoubleAnimation1.To = x * TILEDIMENSION;
+            myDoubleAnimation2.To = y * TILEDIMENSION;
+
+            // Begin the animation.
+            sb.Begin();
+        }
     }
 }

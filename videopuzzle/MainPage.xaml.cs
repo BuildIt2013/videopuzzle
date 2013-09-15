@@ -246,7 +246,7 @@ namespace videopuzzle
                 {
                     idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 75 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 75 * 6;
                 }
-                puzzleBoard.MoveTile(idx);
+                puzzleBoard.MoveTile(idx, true);
                 if (puzzleBoard.IsWon())
                 {
                     timer.Stop();
