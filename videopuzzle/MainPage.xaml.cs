@@ -37,6 +37,7 @@ namespace videopuzzle
         private int playTime;
         private bool isGameStarted = false;
         Random rand;
+        private PlayMode playMode = PlayMode.OnlineImage;
 
         private AudioVideoCaptureDevice camera;
         private WriteableBitmap frameBitmap;
@@ -44,12 +45,21 @@ namespace videopuzzle
         private const double MediaElementWidth = 640;
         private const double MediaElementHeight = 480;
 
-        private IFilter selectedFilter;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            InitializeGame();
+        }
+
+        private void InitializeGame()
+        {
             playTime = 0;
             UpdateTime();
             timer = new DispatcherTimer();
@@ -61,19 +71,17 @@ namespace videopuzzle
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-            selectedFilter = GetFilter();
             SetImageBackgrounds();
         }
 
-       
         // ***************** THESE FUNCTIONS ARE FOR PLAYTIME TIMER *******************
-        void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             playTime++;
             UpdateTime();
         }
 
-        private void UpdateTime() 
+        private void UpdateTime()
         {
             PlayTimer.Text = getTimeString(playTime);
         }
@@ -84,7 +92,8 @@ namespace videopuzzle
         }
         //********************************************************************************
 
-        private void SetImageBackgrounds() {
+        private void SetImageBackgrounds()
+        {
 
             WebClient client = new WebClient();
             client.OpenReadCompleted += client_OpenReadCompleted;
@@ -103,19 +112,25 @@ namespace videopuzzle
 
         private async void SplitImage(Stream stream)
         {
+            int dimension;
             _session = await EditingSessionFactory.CreateEditingSessionAsync(stream);
-
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            {
+                dimension = 150;
+            }
+            else
+            {
+                dimension = 75;
+            }
             try
             {
                 stream.Position = 0;
-                foreach (Image img in images) 
+
+                foreach (Image img in images)
                 {
                     _session.UndoAll();
-                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
-                    if (selectedFilter != null) 
-                    {
-                        _session.AddFilter(selectedFilter);
-                    }
+
+                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), dimension, dimension)));
                     await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                 }
 
@@ -129,7 +144,6 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
-
         }
 
 
@@ -139,13 +153,26 @@ namespace videopuzzle
             _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
             _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
             try
-            {             
-                foreach (Image img in images)
+            {
+                if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
                 {
-                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
-                    //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
-                    await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
-                    if (_session.CanUndo()) _session.Undo();
+                    foreach (Image img in images)
+                    {
+                        _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
+                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (_session.CanUndo()) _session.Undo();
+                    }
+                }
+                else
+                {
+                    foreach (Image img in images)
+                    {
+                        _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 6 * 75, images.IndexOf(img) / 6 * 75, 75, 75)));
+                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (_session.CanUndo()) _session.Undo();
+                    }
                 }
 
             }
@@ -154,7 +181,7 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
-            processNextFrame();
+            if (playMode == PlayMode.CameraVideo) { processNextFrame(); }
 
         }
 
@@ -171,29 +198,54 @@ namespace videopuzzle
 
         private void InitializeSquares()
         {
-            for (int i = 0; i < 12; i++)
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
             {
-                Image img = new Image();
-                img.Width = 150;
-                img.Height = 150;
-                Canvas.SetLeft(img, (i%3)*150); // columns
-                Canvas.SetTop(img, (i/3)*150); // rows
-                MainGrid.Children.Add(img);
-                images.Add(img);
-                if (i != 11) squares.Add(new Square(img, i + 1));
-                else squares.Add(null);                    
+                for (int i = 0; i < 12; i++)
+                {
+                    Image img = new Image();
+                    img.Width = 150;
+                    img.Height = 150;
+                    Canvas.SetLeft(img, (i % 3) * 150); // columns
+                    Canvas.SetTop(img, (i / 3) * 150); // rows
+                    MainGrid.Children.Add(img);
+                    images.Add(img);
+                    if (i != 11) squares.Add(new Square(img, i + 1, 150));
+                    else squares.Add(null);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 48; i++)
+                {
+                    Image img = new Image();
+                    img.Width = 75;
+                    img.Height = 75;
+                    Canvas.SetLeft(img, (i % 6) * 75); // columns
+                    Canvas.SetTop(img, (i / 6) * 75); // rows
+                    MainGrid.Children.Add(img);
+                    images.Add(img);
+                    if (i != 47) squares.Add(new Square(img, i + 1, 75));
+                    else squares.Add(null);
+                }
             }
             timer.Stop();
             isGameStarted = false;
-            
+
         }
 
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            if (e.ManipulationContainer.GetType() != typeof (Canvas) && isGameStarted) 
+            if (e.ManipulationContainer.GetType() != typeof(Canvas) && isGameStarted)
             {
-                int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
-                
+                int idx = 0;
+                if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+                {
+                    idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
+                }
+                else
+                {
+                    idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 75 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 75 * 6;
+                }
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
                 {
@@ -203,7 +255,7 @@ namespace videopuzzle
                 else
                     images.Last().Visibility = System.Windows.Visibility.Collapsed;
             }
-            
+
         }
 
         // ********* HERE ARE THE APPLICATIONBAR BUTTON CALLBACK FUNCTIONS *************
@@ -217,9 +269,11 @@ namespace videopuzzle
                 UpdateTime();
             }
         }
-        
+
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.OnlineImage;
+            CameraOff();
             ResetPuzzle();
             ResetTime();
             SetImageBackgrounds();
@@ -227,6 +281,8 @@ namespace videopuzzle
 
         private void ApplicationBarNew_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.GalleryImage;
+            CameraOff();
             PhotoChooserTask chooser = new PhotoChooserTask();
             chooser.PixelHeight = 600;
             chooser.PixelWidth = 450;
@@ -236,6 +292,7 @@ namespace videopuzzle
 
         private void ApplicationBarMenuItemSettings_Click(object sender, EventArgs e)
         {
+            CameraOff();
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
         // **************************************************************************
@@ -255,14 +312,16 @@ namespace videopuzzle
 
         private async void ApplicationBarLive_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.CameraVideo;
             await initCamera(CameraSensorLocation.Back);
             processNextFrame();
-            
+
         }
 
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
+            images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
             isGameStarted = true;
@@ -273,9 +332,9 @@ namespace videopuzzle
         {
             int min = secs / 60;
             int sec = secs % 60;
-            string minutes = (min<10)?"0"+min.ToString():min.ToString();
+            string minutes = (min < 10) ? "0" + min.ToString() : min.ToString();
             string seconds = (sec < 10) ? "0" + sec.ToString() : sec.ToString();
-            
+
             return minutes + ":" + seconds;
         }
 
@@ -301,15 +360,16 @@ namespace videopuzzle
             }
         }
 
-        private void processFrame(object o, EventArgs e)
+        private void processNextFrame()
         {
-            processNextFrame();
-
-        }
-
-        private void processNextFrame() 
-        {
-            camera.GetPreviewBufferArgb(frameBitmap.Pixels);
+            try
+            {
+                camera.GetPreviewBufferArgb(frameBitmap.Pixels);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine("Safe Exit : Expecting null pointer exception" + e.Message);
+            }
             SplitImageFromBitmap(frameBitmap);
         }
 

@@ -56,8 +56,6 @@ namespace videopuzzle
             else NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
-
-
         private void SaveSettings(object sender, System.Windows.Input.GestureEventArgs e)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;

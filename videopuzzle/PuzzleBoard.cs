@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,12 @@ namespace videopuzzle
             squares = sq;   
         }
 
+
+        // Move tile to a desired position, two overloaded versions
         public void MoveTile(int x, int y)
         {
             MoveTile(CoordinateToIndex(x, y));
         }
-
         public void MoveTile(int position)
         {
             int emptyIndex = GetEmptyIndex();
@@ -38,11 +40,10 @@ namespace videopuzzle
                 squares[emptyIndex] = squares[position];
                 squares[position] = null;
                 squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
-            }
-           
-            
+            }            
         }
-              
+        
+        // get the index of the empty tile
         private int GetEmptyIndex()
         {
             for (int i = 0; i < squares.Count; i++)
@@ -56,29 +57,66 @@ namespace videopuzzle
         // convert Coordinate values to array index
         public int CoordinateToIndex(int x, int y)
         {
-            if (x > ARRAYWIDTH - 1 || y > ARRAYHEIGHT - 1)
-                throw new VideoPuzzleException("Coordinates out of bound.");
-            return x % ARRAYWIDTH + y * ARRAYWIDTH;
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            {
+                if (x > ARRAYWIDTH - 1 || y > ARRAYHEIGHT - 1)
+                    throw new VideoPuzzleException("Coordinates out of bound.");
+                return x % ARRAYWIDTH + y * ARRAYWIDTH;
+            }
+            else
+            {
+                if (x > ARRAYWIDTH * 2 - 1 || y > ARRAYHEIGHT * 2 - 1)
+                    throw new VideoPuzzleException("Coordinates out of bound.");
+                return x % (ARRAYWIDTH * 2) + y * (ARRAYWIDTH * 2);
+            }
         }
 
-        // Convert array index too coordinates presented as List<int>
+        // Convert array index to coordinates presented as List<int>
         public List<int> IndexToCoordinate(int idx)
         {
-            return new List<int> { idx % ARRAYWIDTH, idx / ARRAYWIDTH };
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+                return new List<int> { idx % ARRAYWIDTH, idx / ARRAYWIDTH };
+            else
+                return new List<int> { idx % (ARRAYWIDTH * 2), idx / (ARRAYWIDTH * 2) };
         }
 
         // shuffle tiles
         public void Shuffle()
         {
             Random rand = new Random();
-            for (int i = 0; i < 1000; i++) 
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
             {
-                int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
-                MoveTile(randTile);
+                for (int i = 0; i < 1000; i++)
+                {
+                    int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
+                    MoveTile(randTile);
+                }
             }
-            return;
+            else
+            {
+                int randTile = 43;
+                for (int i = 0; i < 10000; i++)
+                {
+                    int temp = randTile;
+                    int direction = (int)(rand.NextDouble() * 4);
+                    if (direction == 0)
+                        temp = temp - 1;
+                    else if (direction == 1)
+                        temp = temp + 1;
+                    else if (direction == 2)
+                        temp = temp - 6;
+                    else
+                        temp = temp + 6;
+
+                    if (temp >= 0 && temp < 48)
+                        randTile = temp;
+//                    randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
+                    MoveTile(randTile);
+                }
+            }
         }
 
+        // is game won
         public bool IsWon()
         {
             for (int i = 0; i < squares.Count - 1; i++) {
