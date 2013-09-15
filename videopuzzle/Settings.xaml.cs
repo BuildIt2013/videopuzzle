@@ -13,6 +13,10 @@ namespace videopuzzle
 {
     public partial class Settings : PhoneApplicationPage
     {
+        private bool challengeMode = false;
+        private bool offlineMode = false;
+        private int filterIndex = 0;
+
         public Settings()
         {
             InitializeComponent();
@@ -22,87 +26,59 @@ namespace videopuzzle
         // Load application settings from memory
         private void LoadSettings()
         {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("gridMode"))
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode"))
             {
-                int gridMode = (int)IsolatedStorageSettings.ApplicationSettings["gridMode"];
-                if (gridMode == 0)
-                {
-                    radioButton1.IsChecked = true;
-                }
-                else
-                {
-                    radioButton2.IsChecked = true;
-                }
+                challengeMode = (bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"];
             }
-            else
-            {
-                radioButton1.IsChecked = true;
-            }
-            // add event handlers
-            radioButton1.Checked += RadioButton1_Checked;
-            radioButton2.Checked += RadioButton2_Checked;
+            radioButton1.IsChecked = !challengeMode;
+            radioButton2.IsChecked = challengeMode;
 
             // Load offline mode settings from memory
             if (IsolatedStorageSettings.ApplicationSettings.Contains("offlineMode"))
             {
-                int offlineMode = (int)IsolatedStorageSettings.ApplicationSettings["offlineMode"];
-                if(offlineMode==1)
-                    offlineToggle.IsChecked = true;
-                offlineToggle.IsChecked = false;
+                offlineMode = (bool)IsolatedStorageSettings.ApplicationSettings["offlineMode"];
             }
-            // add event handlers
-            offlineToggle.Checked += ToggleSwitch_Checked;
-            offlineToggle.Unchecked += ToggleSwitch_Unchecked;
+            offlineToggle.IsChecked = offlineMode;
+
+            // Load filter index settings from memory
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("filterIndex"))
+            {
+                filterIndex = (int)IsolatedStorageSettings.ApplicationSettings["filterIndex"];
+            }
+            filterPicker.SelectedIndex = filterIndex;
+
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CancelSettings(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            if(NavigationService.CanGoBack) NavigationService.GoBack();
+            else NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
-        private void RadioButton1_Checked(object sender, RoutedEventArgs e)
+
+
+        private void SaveSettings(object sender, System.Windows.Input.GestureEventArgs e)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            // gridMode describes the grid layout. 0 = 3x4, 1 = 6x8            
-            if (!settings.Contains("gridMode"))
+            if (!settings.Contains("challengeMode"))
             {
-                settings.Add("gridMode", 0);
+                settings.Add("challengeMode", false);
             }
-            else
+            if (!settings.Contains("offlineMode"))
             {
-                settings["gridMode"] = 0;
+                settings.Add("offlineMode", false);
             }
+            if (!settings.Contains("filterIndex"))
+            {
+                settings.Add("filterIndex", 0);
+            }
+            settings["challengeMode"] = radioButton2.IsChecked;
+            settings["offlineMode"] = offlineToggle.IsChecked;
+            settings["filterIndex"] = filterPicker.SelectedIndex;
             settings.Save();
-
-        }
-
-        private void RadioButton2_Checked(object sender, RoutedEventArgs e)
-        {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            // gridMode describes the grid layout. 0 = 3x4, 1 = 6x8
-            if (!settings.Contains("gridMode"))
-            {
-                settings.Add("gridMode", 1);
-            }
-            else
-            {
-                settings["gridMode"] = 1;
-            }
-            settings.Save();
-        }
-
-        // set Offline-mode on
-        private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
-        {
-           
-           
-        }
-
-        // set Offline-mode off
-        private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
-        {
-           
-            
+            if (NavigationService.CanGoBack) NavigationService.GoBack();
+            else NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         

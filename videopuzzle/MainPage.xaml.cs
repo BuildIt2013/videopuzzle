@@ -44,11 +44,12 @@ namespace videopuzzle
         private const double MediaElementWidth = 640;
         private const double MediaElementHeight = 480;
 
+        private IFilter selectedFilter;
+
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
             playTime = 0;
             UpdateTime();
             timer = new DispatcherTimer();
@@ -60,11 +61,11 @@ namespace videopuzzle
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-
+            selectedFilter = GetFilter();
             SetImageBackgrounds();
         }
 
-        
+       
         // ***************** THESE FUNCTIONS ARE FOR PLAYTIME TIMER *******************
         void timer_Tick(object sender, EventArgs e)
         {
@@ -111,6 +112,10 @@ namespace videopuzzle
                 {
                     _session.UndoAll();
                     _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                    if (selectedFilter != null) 
+                    {
+                        _session.AddFilter(selectedFilter);
+                    }
                     await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                 }
 
@@ -307,5 +312,11 @@ namespace videopuzzle
             camera.GetPreviewBufferArgb(frameBitmap.Pixels);
             SplitImageFromBitmap(frameBitmap);
         }
+
+        private IFilter GetFilter()
+        {
+            return FilterFactory.CreateCartoonFilter(true);
+        }
+
     }
 }

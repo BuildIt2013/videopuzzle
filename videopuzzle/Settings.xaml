@@ -17,24 +17,36 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28"/>
-
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,12,12"/>
+            <TextBlock TextWrapping="Wrap" Text="settings" VerticalAlignment="Top" FontSize="72"/>
+        </StackPanel>
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock Margin="0,-13,0,0" TextWrapping="Wrap" Text="settings" VerticalAlignment="Top" FontSize="72"/>
-            <Button Content="Return" HorizontalAlignment="Left" Margin="116,598,0,0" VerticalAlignment="Top" Width="217" Click="Button_Click"/>
-            <RadioButton Content="3 x 4" x:Name="radioButton1" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
-            <RadioButton Content="6 x 8" x:Name="radioButton2" HorizontalAlignment="Left" Margin="10,217,0,0" VerticalAlignment="Top" GroupName="GroupOne"/>
-            <TextBlock Margin="10,115,21,0" TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
-            <tk:ToggleSwitch x:Name="offlineToggle" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,321,39,0" RenderTransformOrigin="0.479,0.444" Height="109" Width="385"/>
-            <TextBlock Margin="10,294,237,0" TextWrapping="Wrap" Text="Offline mode" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
-        </Grid>
-        <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,36,12"/>
-    </Grid>
+        <StackPanel Grid.Row="1" Margin="12,17,0,28">
+            <TextBlock Margin="17, 20, 0, 0"  TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+            <RadioButton Margin="40, 0, 0, 0" Content="3 x 4" x:Name="radioButton1" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="ChallengeMode"/>
+            <RadioButton Margin="40, 0, 0, 0" Content="6 x 8" x:Name="radioButton2" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="ChallengeMode"/>
+            <TextBlock Margin="17, 0, 0, 0"  TextWrapping="Wrap" Text="Filter" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+            <tk:ListPicker x:Name="filterPicker" Margin="40, 0, 40, 0">
+                <tk:ListPickerItem Content="No Filter" />
+                <tk:ListPickerItem Content="Cartoon" />
+                <tk:ListPickerItem Content="Greyscale" />
+                <tk:ListPickerItem Content="Negative" />
+                <tk:ListPickerItem Content="Sepia" />
+            </tk:ListPicker>
+            <TextBlock Margin="17, 20, 0, 0" TextWrapping="Wrap" Text="Offline mode" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+            <tk:ToggleSwitch Margin="40, 0, 0, 0" x:Name="offlineToggle" VerticalAlignment="Top" Height="109" Width="400"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button  Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="240" Click="CancelSettings"/>
+            <Button Content="Save" HorizontalAlignment="Center" VerticalAlignment="Top" Width="240" Tap="SaveSettings"  />
+        </StackPanel>
+     </Grid>
 
 </phone:PhoneApplicationPage>
