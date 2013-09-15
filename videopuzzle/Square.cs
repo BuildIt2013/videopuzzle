@@ -10,14 +10,15 @@ namespace videopuzzle
 {
     class Square
     {
-        private const int TILEDIMENSION = 150;
+        private int TILEDIMENSION = 150;
         public Image block;
         public int number;
 
-        public Square(Image bl, int nmbr)
+        public Square(Image bl, int nmbr, int tileDimension)
         {
             block = bl;
             number = nmbr;
+            TILEDIMENSION = tileDimension;
         }
         // takes an image and updates the block properties
         public void Update()
@@ -32,7 +33,6 @@ namespace videopuzzle
         {
             Canvas.SetTop(block, y * TILEDIMENSION);
             Canvas.SetLeft(block, x * TILEDIMENSION);
-        }
-     
+        }     
     }
 }

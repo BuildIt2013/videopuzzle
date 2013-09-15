@@ -102,18 +102,27 @@ namespace videopuzzle
 
         private async void SplitImage(Stream stream)
         {
+            int dimension;
             _session = await EditingSessionFactory.CreateEditingSessionAsync(stream);
-
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("gridMode") || (int)IsolatedStorageSettings.ApplicationSettings["gridMode"] == 0)
+            {
+                dimension = 150;
+            }
+            else
+            {
+                dimension = 75;
+            }
             try
             {
                 stream.Position = 0;
+
                 foreach (Image img in images) 
                 {
                     _session.UndoAll();
-                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), dimension, dimension)));
                     await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                 }
-
+                
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
                 playButton.Visibility = System.Windows.Visibility.Visible;
@@ -124,7 +133,6 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
-
         }
 
 
@@ -134,13 +142,26 @@ namespace videopuzzle
             _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
             _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
             try
-            {             
-                foreach (Image img in images)
+            {
+                if (!IsolatedStorageSettings.ApplicationSettings.Contains("gridMode") || (int)IsolatedStorageSettings.ApplicationSettings["gridMode"] == 0)
                 {
-                    _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
-                    //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
-                    await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
-                    if (_session.CanUndo()) _session.Undo();
+                    foreach (Image img in images)
+                    {
+                        _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
+                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (_session.CanUndo()) _session.Undo();
+                    }
+                }
+                else
+                {
+                    foreach (Image img in images)
+                    {
+                        _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 6 * 75, images.IndexOf(img) / 6 * 75, 75, 75)));
+                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (_session.CanUndo()) _session.Undo();
+                    }
                 }
 
             }
@@ -166,17 +187,35 @@ namespace videopuzzle
 
         private void InitializeSquares()
         {
-            for (int i = 0; i < 12; i++)
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("gridMode") || (int)IsolatedStorageSettings.ApplicationSettings["gridMode"] == 0)
             {
-                Image img = new Image();
-                img.Width = 150;
-                img.Height = 150;
-                Canvas.SetLeft(img, (i%3)*150); // columns
-                Canvas.SetTop(img, (i/3)*150); // rows
-                MainGrid.Children.Add(img);
-                images.Add(img);
-                if (i != 11) squares.Add(new Square(img, i + 1));
-                else squares.Add(null);                    
+                for (int i = 0; i < 12; i++)
+                {
+                    Image img = new Image();
+                    img.Width = 150;
+                    img.Height = 150;
+                    Canvas.SetLeft(img, (i % 3) * 150); // columns
+                    Canvas.SetTop(img, (i / 3) * 150); // rows
+                    MainGrid.Children.Add(img);
+                    images.Add(img);
+                    if (i != 11) squares.Add(new Square(img, i + 1, 150));
+                    else squares.Add(null);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 48; i++)
+                {
+                    Image img = new Image();
+                    img.Width = 75;
+                    img.Height = 75;
+                    Canvas.SetLeft(img, (i % 6) * 75); // columns
+                    Canvas.SetTop(img, (i / 6) * 75); // rows
+                    MainGrid.Children.Add(img);
+                    images.Add(img);
+                    if (i != 11) squares.Add(new Square(img, i + 1, 75));
+                    else squares.Add(null);
+                }
             }
             timer.Stop();
             isGameStarted = false;
@@ -187,8 +226,15 @@ namespace videopuzzle
         {
             if (e.ManipulationContainer.GetType() != typeof (Canvas) && isGameStarted) 
             {
-                int idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
-                
+                int idx = 0;
+                if (!IsolatedStorageSettings.ApplicationSettings.Contains("gridMode") || (int)IsolatedStorageSettings.ApplicationSettings["gridMode"] == 0)
+                {
+                    idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
+                }
+                else
+                {
+                    idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 75 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 75 * 6;
+                }
                 puzzleBoard.MoveTile(idx);
                 if (puzzleBoard.IsWon())
                 {
