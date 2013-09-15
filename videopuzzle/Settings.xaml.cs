@@ -52,8 +52,9 @@ namespace videopuzzle
 
         private void CancelSettings(object sender, RoutedEventArgs e)
         {
-            if(NavigationService.CanGoBack) NavigationService.GoBack();
-            else NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            //if(NavigationService.CanGoBack) NavigationService.GoBack();
+            //else 
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         private void SaveSettings(object sender, System.Windows.Input.GestureEventArgs e)
@@ -75,8 +76,9 @@ namespace videopuzzle
             settings["offlineMode"] = offlineToggle.IsChecked;
             settings["filterIndex"] = filterPicker.SelectedIndex;
             settings.Save();
-            if (NavigationService.CanGoBack) NavigationService.GoBack();
-            else NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            //if (NavigationService.CanGoBack) NavigationService.GoBack();
+            //else 
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         

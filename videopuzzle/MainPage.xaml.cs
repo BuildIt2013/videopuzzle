@@ -50,17 +50,7 @@ namespace videopuzzle
         public MainPage()
         {
             InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            InitializeGame();
-        }
-
-        private void InitializeGame()
-        {
-            
+            playMode = PlayMode.OnlineImage;
             playTime = 0;
             UpdateTime();
             timer = new DispatcherTimer();
@@ -73,7 +63,6 @@ namespace videopuzzle
             images = new List<Image>();
             InitializeSquares();
             puzzleBoard = new PuzzleBoard(squares);
-            playMode = PlayMode.OnlineImage;
             SetImageBackgrounds();
         }
 
@@ -166,6 +155,7 @@ namespace videopuzzle
                         _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
                         if (selectedFilter != null ) _session.AddFilter(selectedFilter);
                         await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (selectedFilter != null && _session.CanUndo()) _session.Undo();
                         if (_session.CanUndo()) _session.Undo();
                     }
                 }
@@ -176,6 +166,7 @@ namespace videopuzzle
                         _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 6 * 75, images.IndexOf(img) / 6 * 75, 75, 75)));
                         if (selectedFilter != null) _session.AddFilter(selectedFilter);
                         await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
+                        if (selectedFilter != null && _session.CanUndo()) _session.Undo();
                         if (_session.CanUndo()) _session.Undo();
                     }
                 }
