@@ -159,6 +159,9 @@ namespace videopuzzle
             {
                 SplitImage(e.Result);
             }
+            else {
+                SetImageBackgrounds();
+            }
         }
 
         private async void SplitImage(Stream stream)
