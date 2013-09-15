@@ -17,19 +17,19 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,12,12"/>
+        <StackPanel Grid.Row="0" Margin="12,17,0,12">
+            <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,12,0"/>
             <TextBlock TextWrapping="Wrap" Text="settings" VerticalAlignment="Top" FontSize="72"/>
         </StackPanel>
         <!--ContentPanel - place additional content here-->
-        <StackPanel Grid.Row="1" Margin="12,17,0,28">
-            <TextBlock Margin="17, 20, 0, 0"  TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
+        <StackPanel Grid.Row="1" Margin="17,0,0,28">
+            <TextBlock Margin="17, 0, 0, 0"  TextWrapping="Wrap" Text="Grid size" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
             <RadioButton Margin="40, 0, 0, 0" Content="3 x 4" x:Name="radioButton1" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="ChallengeMode"/>
             <RadioButton Margin="40, 0, 0, 0" Content="6 x 8" x:Name="radioButton2" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="ChallengeMode"/>
             <TextBlock Margin="17, 0, 0, 0"  TextWrapping="Wrap" Text="Filter" VerticalAlignment="Top" Style="{StaticResource PhoneTextTitle2Style}"/>
