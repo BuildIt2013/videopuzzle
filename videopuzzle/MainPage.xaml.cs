@@ -37,11 +37,11 @@ namespace videopuzzle
         private int playTime;
         private bool isGameStarted = false;
         Random rand;
-
+        private PlayMode playMode = PlayMode.OnlineImage;
+        
         private AudioVideoCaptureDevice camera;
         private WriteableBitmap frameBitmap;
-        private DispatcherTimer looper;
-
+        
         private const double MediaElementWidth = 640;
         private const double MediaElementHeight = 480;
 
@@ -150,7 +150,7 @@ namespace videopuzzle
                 MessageBox.Show("Exception:" + exception.Message);
                 return;
             }
-            processNextFrame();
+            if (playMode == PlayMode.CameraVideo) { processNextFrame(); }
 
         }
 
@@ -216,6 +216,8 @@ namespace videopuzzle
         
         private void ApplicationBarNext_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.OnlineImage;
+            CameraOff();
             ResetPuzzle();
             ResetTime();
             SetImageBackgrounds();
@@ -223,6 +225,8 @@ namespace videopuzzle
 
         private void ApplicationBarNew_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.GalleryImage;
+            CameraOff();    
             PhotoChooserTask chooser = new PhotoChooserTask();
             chooser.PixelHeight = 600;
             chooser.PixelWidth = 450;
@@ -232,6 +236,7 @@ namespace videopuzzle
 
         private void ApplicationBarMenuItemSettings_Click(object sender, EventArgs e)
         {
+            CameraOff();
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
         // **************************************************************************
@@ -251,12 +256,9 @@ namespace videopuzzle
 
         private async void ApplicationBarLive_Click(object sender, EventArgs e)
         {
+            playMode = PlayMode.CameraVideo;
             await initCamera(CameraSensorLocation.Back);
             processNextFrame();
-            //looper = new DispatcherTimer();
-            //looper.Interval = new TimeSpan(0, 0, 0, 0, 1000);
-            //looper.Tick += processFrame;
-            //looper.Start();
             
         }
 
@@ -302,24 +304,21 @@ namespace videopuzzle
             if (camera != null)
             {
                 camera.Dispose();
+                camera = null;
             }
-        }
-
-        private void processFrame(object o, EventArgs e)
-        {
-            processNextFrame();
-
         }
 
         private void processNextFrame() 
         {
-            camera.GetPreviewBufferArgb(frameBitmap.Pixels);
+            try
+            {
+                camera.GetPreviewBufferArgb(frameBitmap.Pixels);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine("Safe Exit : Expecting null pointer exception" + e.Message);
+            }
             SplitImageFromBitmap(frameBitmap);
-        }
-
-        private void stopTimer(object sender, System.Windows.RoutedEventArgs e)
-        {
-            looper.Stop();
         }
 
     }
