@@ -351,6 +351,17 @@ namespace videopuzzle
             CameraOff();
             NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
         }
+
+        private void ApplicationBarMenuItemAbout_Click(object sender, EventArgs e)
+        {
+            string st = @"Contributors:
+Tuomo Vierros
+Janne Kemppainen
+Vidhuran Harichandra Babu
+Petri Martinmäki
+Siddhart rao";
+            MessageBox.Show(st);
+        }
         // **************************************************************************
         private void ResetPuzzle()
         {

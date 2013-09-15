@@ -48,7 +48,8 @@
             <shell:ApplicationBarIconButton x:Name="reshuffleButton" IconUri="/Assets/Images/refresh.png" Text="Reshuffle" Click="ApplicationBarShuffle_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/Images/next.png" Text="Next" Click="ApplicationBarNext_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemSettings_Click" Text="settings"/>
+                <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemSettings_Click" Text="settings..."/>
+                <shell:ApplicationBarMenuItem Click="ApplicationBarMenuItemAbout_Click" Text="about"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -67,6 +67,7 @@ namespace videopuzzle
             }
             catch (NullReferenceException e)
             {
+                MessageBox.Show(e.Message);
                 // RemoveBackEntry might throw this exception
             }
         }
