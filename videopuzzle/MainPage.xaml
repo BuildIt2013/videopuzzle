@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="150" />          
             </Grid.ColumnDefinitions>
             <TextBlock Text="Sliding Puzzle" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
-            <TextBlock Grid.Column="1" TextAlignment="Right" x:Name="PlayTimer" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12"/>
+            <TextBlock Grid.Column="1" TextAlignment="Right" x:Name="PlayTimer" Style="{StaticResource PhoneTextTitle2Style}" FontFamily="fonts/Digit.ttf#Digit" Margin="12,12"/>
         </Grid>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,12,12,12">

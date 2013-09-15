@@ -106,6 +106,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Fonts\Digit.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
