@@ -36,6 +36,7 @@ namespace videopuzzle
         private DispatcherTimer timer;
         private int playTime;
         private bool isGameStarted;
+        private bool isLoading;
         Random rand;
         private PlayMode playMode;
 
@@ -86,12 +87,15 @@ namespace videopuzzle
 
         private void SetImageBackgrounds()
         {
-
-            WebClient client = new WebClient();
-            client.OpenReadCompleted += client_OpenReadCompleted;
-            client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
-            progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
-            progressbarDescription.Visibility = System.Windows.Visibility.Visible;
+            if (!isLoading)
+            {
+                WebClient client = new WebClient();
+                client.OpenReadCompleted += client_OpenReadCompleted;
+                client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
+                isLoading = true;
+                progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
+                progressbarDescription.Visibility = System.Windows.Visibility.Visible;
+            }
         }
 
         void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
@@ -129,6 +133,7 @@ namespace videopuzzle
 
                 progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Collapsed;
                 progressbarDescription.Visibility = System.Windows.Visibility.Collapsed;
+                isLoading = false;
                 playButton.Visibility = System.Windows.Visibility.Visible;
 
             }
@@ -272,7 +277,7 @@ namespace videopuzzle
             CameraOff();
             ResetPuzzle();
             ResetTime();
-            SetImageBackgrounds();
+            SetImageBackgrounds();           
         }
 
         private void ApplicationBarNew_Click(object sender, EventArgs e)
