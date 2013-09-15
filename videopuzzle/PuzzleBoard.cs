@@ -25,9 +25,9 @@ namespace videopuzzle
         // Move tile to a desired position, two overloaded versions
         public void MoveTile(int x, int y)
         {
-            MoveTile(CoordinateToIndex(x, y));
+            MoveTile(CoordinateToIndex(x, y), true);
         }
-        public void MoveTile(int position)
+        public void MoveTile(int position, bool animate)
         {
             int emptyIndex = GetEmptyIndex();
             List<int> emptyCoordinates = IndexToCoordinate(emptyIndex);
@@ -39,7 +39,10 @@ namespace videopuzzle
             {
                 squares[emptyIndex] = squares[position];
                 squares[position] = null;
-                squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
+                if (animate)
+                    squares[emptyIndex].AnimateToPosition(emptyCoordinates[0], emptyCoordinates[1]);
+                else
+                    squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
             }            
         }
         
@@ -89,7 +92,7 @@ namespace videopuzzle
                 for (int i = 0; i < 1000; i++)
                 {
                     int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
-                    MoveTile(randTile);
+                    MoveTile(randTile, false);
                 }
             }
             else
@@ -111,7 +114,7 @@ namespace videopuzzle
                     if (temp >= 0 && temp < 48)
                         randTile = temp;
 //                    randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
-                    MoveTile(randTile);
+                    MoveTile(randTile, false);
                 }
             }
         }
