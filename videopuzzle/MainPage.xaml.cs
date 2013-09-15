@@ -60,12 +60,13 @@ namespace videopuzzle
 
         private void InitializeGame()
         {
-            timer.Stop();
+            
             playTime = 0;
             UpdateTime();
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
+            timer.Stop();
             rand = new Random();
             isGameStarted = false;
             squares = new List<Square>();
