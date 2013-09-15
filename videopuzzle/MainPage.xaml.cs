@@ -21,7 +21,8 @@ using System.Windows.Threading;
 using Windows.Phone.Media.Capture;
 using Microsoft.Devices;
 using System.IO.IsolatedStorage;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
+using System.Windows.Resources; 
 
 
 
@@ -86,12 +87,35 @@ namespace videopuzzle
 
         private void SetImageBackgrounds()
         {
+            bool offline = false;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("offlineMode"))
+            {
+                offline = (bool)IsolatedStorageSettings.ApplicationSettings["offlineMode"];
+            }
 
-            WebClient client = new WebClient();
-            client.OpenReadCompleted += client_OpenReadCompleted;
-            client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
-            progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
-            progressbarDescription.Visibility = System.Windows.Visibility.Visible;
+            if (offline)
+            {
+
+                BitmapImage bmp = new BitmapImage(new Uri("/Assets/Images/test-image.jpg", UriKind.Relative));
+                bmp.CreateOptions = BitmapCreateOptions.None;
+                bmp.ImageOpened += bmp_ImageOpened;
+
+                
+            } 
+            else
+            {
+                WebClient client = new WebClient();
+                client.OpenReadCompleted += client_OpenReadCompleted;
+                client.OpenReadAsync(new Uri("http://lorempixel.com/450/600/?v=" + Guid.NewGuid(), UriKind.Absolute));
+                progressbarIndeterminateDownload.Visibility = System.Windows.Visibility.Visible;
+                progressbarDescription.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        void bmp_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            WriteableBitmap wbmp = new WriteableBitmap((BitmapImage) sender);
+            SplitImageFromBitmap(wbmp);
         }
 
         void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
@@ -143,8 +167,8 @@ namespace videopuzzle
         private async void SplitImageFromBitmap(WriteableBitmap bmp)
         {
             _session = new EditingSession(bmp.AsBitmap());
-            _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
-            _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
+            if (playMode == PlayMode.CameraVideo) _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
+            if (playMode == PlayMode.CameraVideo) _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
             IFilter selectedFilter = GetFilter();
             try
             {
