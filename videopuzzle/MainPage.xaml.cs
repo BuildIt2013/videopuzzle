@@ -357,13 +357,17 @@ namespace videopuzzle
 
         private void ApplicationBarMenuItemAbout_Click(object sender, EventArgs e)
         {
-            string st = @"Contributors:
+            string contributors = @"Contributors:
 Tuomo Vierros
 Janne Kemppainen
 Vidhuran Harichandra Babu
 Petri Martinmäki
 Siddhart rao";
-            MessageBox.Show(st);
+            string imageRef = @"Images from
+http://lorempixel.com/";
+
+            string prgCreated = @"Aaltoes Build It 2013";
+            MessageBox.Show(contributors + "\n\n" + imageRef + "\n\n" + prgCreated);
         }
         // **************************************************************************
         private void ResetPuzzle()
