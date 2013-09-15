@@ -114,6 +114,7 @@ namespace videopuzzle
         {
             int dimension;
             _session = await EditingSessionFactory.CreateEditingSessionAsync(stream);
+            IFilter selectedFilter = GetFilter();
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
             {
                 dimension = 150;
@@ -129,8 +130,8 @@ namespace videopuzzle
                 foreach (Image img in images)
                 {
                     _session.UndoAll();
-
                     _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), dimension, dimension)));
+                    if (selectedFilter != null) _session.AddFilter(selectedFilter);                   
                     await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                 }
 
@@ -152,6 +153,7 @@ namespace videopuzzle
             _session = new EditingSession(bmp.AsBitmap());
             _session.AddFilter(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
             _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(15, 20, 450, 600)));
+            IFilter selectedFilter = GetFilter();
             try
             {
                 if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
@@ -159,7 +161,7 @@ namespace videopuzzle
                     foreach (Image img in images)
                     {
                         _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 3 * 150, images.IndexOf(img) / 3 * 150, 150, 150)));
-                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        if (selectedFilter != null ) _session.AddFilter(selectedFilter);
                         await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                         if (_session.CanUndo()) _session.Undo();
                     }
@@ -169,7 +171,7 @@ namespace videopuzzle
                     foreach (Image img in images)
                     {
                         _session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(images.IndexOf(img) % 6 * 75, images.IndexOf(img) / 6 * 75, 75, 75)));
-                        //_session.AddFilter(FilterFactory.CreateCropFilter(new Windows.Foundation.Rect(Canvas.GetLeft(img), Canvas.GetTop(img), 150, 150)));
+                        if (selectedFilter != null) _session.AddFilter(selectedFilter);
                         await _session.RenderToImageAsync(img, OutputOption.PreserveAspectRatio);
                         if (_session.CanUndo()) _session.Undo();
                     }
@@ -375,7 +377,18 @@ namespace videopuzzle
 
         private IFilter GetFilter()
         {
-            return FilterFactory.CreateCartoonFilter(true);
+            int index = 0;
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("filterIndex"))
+                index = (int)IsolatedStorageSettings.ApplicationSettings["filterIndex"];
+            switch (index)
+            {
+                case 0: return null;
+                case 1: return FilterFactory.CreateCartoonFilter(true);
+                case 2: return FilterFactory.CreateGrayscaleFilter();
+                case 3: return FilterFactory.CreateNegativeFilter();
+                case 4: return FilterFactory.CreateSepiaFilter();
+            }
+            return null;
         }
 
     }
