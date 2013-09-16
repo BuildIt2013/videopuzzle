@@ -22,7 +22,8 @@ using Windows.Phone.Media.Capture;
 using Microsoft.Devices;
 using System.IO.IsolatedStorage;
 using System.Threading.Tasks;
-using System.Windows.Resources; 
+using System.Windows.Resources;
+using Microsoft.WindowsAzure.MobileServices;
 
 
 
@@ -313,6 +314,7 @@ namespace videopuzzle
                 {
                     timer.Stop();
                     images.Last().Visibility = System.Windows.Visibility.Visible;
+                    SaveScore(playTime);
                 }
                 else
                     images.Last().Visibility = System.Windows.Visibility.Collapsed;
@@ -466,5 +468,17 @@ http://lorempixel.com/";
             }
             return null;
         }
+
+        private async void SaveScore(int time)
+        { 
+            HighScore score = new HighScore { Time = time, PuzzleId = 1, PlayerId = 1 };
+            await App.MobileService.GetTable<HighScore>().InsertAsync(score);
+        }
+        
+        private HighScore LoadHighScore(int puzzleId)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

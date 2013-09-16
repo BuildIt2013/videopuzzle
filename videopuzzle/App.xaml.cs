@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using videopuzzle.Resources;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace videopuzzle
 {
@@ -219,5 +220,10 @@ namespace videopuzzle
                 throw;
             }
         }
+
+        public static MobileServiceClient MobileService = new MobileServiceClient(
+            "INSERT END POINT URL HERE",
+            "INSERT KEY HERE"
+        );
     }
 }
