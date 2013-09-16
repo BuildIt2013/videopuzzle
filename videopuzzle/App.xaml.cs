@@ -223,7 +223,7 @@ namespace videopuzzle
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
             "INSERT END POINT URL HERE",
-            "INSERT KEY HERE"
+            "INSERT APPLICATION KEY HERE"
         );
     }
 }
