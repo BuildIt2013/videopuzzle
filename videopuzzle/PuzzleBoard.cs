@@ -60,7 +60,7 @@ namespace videopuzzle
         // convert Coordinate values to array index
         public int CoordinateToIndex(int x, int y)
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            if (Utils.IsChallengeMode())
             {
                 if (x > ARRAYWIDTH - 1 || y > ARRAYHEIGHT - 1)
                     throw new VideoPuzzleException("Coordinates out of bound.");
@@ -77,7 +77,7 @@ namespace videopuzzle
         // Convert array index to coordinates presented as List<int>
         public List<int> IndexToCoordinate(int idx)
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            if (Utils.IsChallengeMode())
                 return new List<int> { idx % ARRAYWIDTH, idx / ARRAYWIDTH };
             else
                 return new List<int> { idx % (ARRAYWIDTH * 2), idx / (ARRAYWIDTH * 2) };
@@ -87,7 +87,7 @@ namespace videopuzzle
         public void Shuffle()
         {
             Random rand = new Random();
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            if (Utils.IsChallengeMode())
             {
                 for (int i = 0; i < 1000; i++)
                 {
