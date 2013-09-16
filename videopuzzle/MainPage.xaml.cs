@@ -314,7 +314,6 @@ namespace videopuzzle
                 {
                     timer.Stop();
                     images.Last().Visibility = System.Windows.Visibility.Visible;
-                    SaveScore(playTime);
                 }
                 else
                     images.Last().Visibility = System.Windows.Visibility.Collapsed;
@@ -468,6 +467,10 @@ http://lorempixel.com/";
             }
             return null;
         }
+
+        /* Do not call this function unless application key is in place in App.xaml.cs 
+         * Never push application key to github.
+         */
 
         private async void SaveScore(int time)
         { 

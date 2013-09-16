@@ -222,7 +222,7 @@ namespace videopuzzle
         }
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
-            "INSERT END POINT URL HERE",
+            "https://slidingpuzzle.azure-mobile.net/",
             "INSERT APPLICATION KEY HERE"
         );
     }
