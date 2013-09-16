@@ -4,6 +4,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 
 
@@ -27,7 +28,7 @@ namespace videopuzzle
         {
             MoveTile(CoordinateToIndex(x, y), true);
         }
-        public void MoveTile(int position, bool animate)
+        public void MoveTile(int position, bool animate, bool ignoreSquareMovement=false)
         {
             int emptyIndex = GetEmptyIndex();
             List<int> emptyCoordinates = IndexToCoordinate(emptyIndex);
@@ -39,13 +40,28 @@ namespace videopuzzle
             {
                 squares[emptyIndex] = squares[position];
                 squares[position] = null;
-                if (animate)
-                    squares[emptyIndex].AnimateToPosition(emptyCoordinates[0], emptyCoordinates[1]);
-                else
-                    squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
+                if (!ignoreSquareMovement)
+                {
+                    if (animate)
+                        squares[emptyIndex].AnimateToPosition(emptyCoordinates[0], emptyCoordinates[1]);
+                    else
+                        squares[emptyIndex].SetPosition(emptyCoordinates[0], emptyCoordinates[1]);
+                }
             }            
         }
-        
+        private void UpdateTilePositionsAnimate()
+        {
+            for (int i = 0; i < squares.Count; i++)
+            {
+                if (squares[i] != null)
+                {
+                    List<int> position = IndexToCoordinate(i);
+                    squares[i].AnimateToPosition(position[0], position[1], 400);
+                }
+            }
+        }
+
+
         // get the index of the empty tile
         private int GetEmptyIndex()
         {
@@ -92,8 +108,36 @@ namespace videopuzzle
                 for (int i = 0; i < 1000; i++)
                 {
                     int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
-                    MoveTile(randTile, false);
+                    MoveTile(randTile, false, true);
                 }
+
+                /*
+                int randTile = 12;
+                for (int i = 0; i < 1000; i++)
+                {
+                    int temp = randTile;
+                    int direction = (int)(rand.NextDouble() * 4);
+                    if (direction == 0)
+                        temp = temp - 1;
+                    else if (direction == 1)
+                        temp = temp + 1;
+                    else if (direction == 2)
+                        temp = temp - 3;
+                    else
+                        temp = temp + 3;
+
+                    if (temp >= 0 && temp < 12)
+                        randTile = temp;
+                    try
+                    {
+                        MoveTile(randTile, false, true);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }*/
+                UpdateTilePositionsAnimate();
             }
             else
             {
@@ -114,8 +158,9 @@ namespace videopuzzle
                     if (temp >= 0 && temp < 48)
                         randTile = temp;
 //                    randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
-                    MoveTile(randTile, false);
+                    MoveTile(randTile, false, true);
                 }
+                UpdateTilePositionsAnimate();
             }
         }
 

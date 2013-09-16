@@ -36,9 +36,9 @@ namespace videopuzzle
             Canvas.SetLeft(block, x * TILEDIMENSION);
         }
 
-        public void AnimateToPosition(int x, int y)
+        public void AnimateToPosition(int x, int y, int time=100)
         {
-            Duration duration = new Duration(TimeSpan.FromMilliseconds(100));
+            Duration duration = new Duration(TimeSpan.FromMilliseconds(time));
 
             // Create two DoubleAnimations and set their properties.
             DoubleAnimation myDoubleAnimation1 = new DoubleAnimation();
