@@ -1,14 +1,22 @@
 ﻿using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace videopuzzle
 {
-    class TileManager
+    /// <summary>
+    /// This is a utility class for various functions
+    /// </summary>
+    class Utils
     {
+        // return challenge mode value
+        public static bool IsChallengeMode() { return (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"]); }
+
+        // This function updates the application live tile
         public static void UpdateLiveTile()
         {
             CycleTileData tileData = new CycleTileData();
@@ -20,6 +28,7 @@ namespace videopuzzle
             // Images could be max Nine images.
             tileData.CycleImages = new List<Uri>
                {
+                    //TODO: Functionality to change the picture to the last played picture
                   new Uri(@"\Assets\Tiles\001.jpg", UriKind.Relative), 
                   new Uri(@"\Assets\Tiles\002.jpg", UriKind.Relative), 
                   
@@ -30,4 +39,6 @@ namespace videopuzzle
             tile.Update(tileData);
         }
     }
+
+    
 }

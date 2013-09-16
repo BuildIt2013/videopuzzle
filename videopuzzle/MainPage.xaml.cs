@@ -172,7 +172,7 @@ namespace videopuzzle
             int dimension;
             _session = await EditingSessionFactory.CreateEditingSessionAsync(stream);
             IFilter selectedFilter = GetFilter();
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            if (Utils.IsChallengeMode())
             {
                 dimension = 150;
             }
@@ -214,7 +214,7 @@ namespace videopuzzle
             IFilter selectedFilter = GetFilter();
             try
             {
-                if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+                if (Utils.IsChallengeMode())
                 {
                     foreach (Image img in images)
                     {
@@ -260,7 +260,7 @@ namespace videopuzzle
 
         private void InitializeSquares()
         {
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+            if (Utils.IsChallengeMode())
             {
                 for (int i = 0; i < 12; i++)
                 {
@@ -294,13 +294,13 @@ namespace videopuzzle
             isGameStarted = false;
 
         }
-
+        
         private void MainGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             if (e.ManipulationContainer.GetType() != typeof(Canvas) && isGameStarted)
             {
                 int idx = 0;
-                if (!IsolatedStorageSettings.ApplicationSettings.Contains("challengeMode") || !(bool)IsolatedStorageSettings.ApplicationSettings["challengeMode"])
+                if (Utils.IsChallengeMode())
                 {
                     idx = ((int)Canvas.GetLeft(e.ManipulationContainer)) / 150 + ((int)Canvas.GetTop(e.ManipulationContainer)) / 150 * 3;
                 }
@@ -398,7 +398,7 @@ http://lorempixel.com/";
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
-            TileManager.UpdateLiveTile();
+            Utils.UpdateLiveTile();
             images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
