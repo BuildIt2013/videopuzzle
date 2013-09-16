@@ -108,4 +108,4 @@ Backup*/
 UpgradeLog*.XML
 
 # API configuration is in App.xaml.cs
-App.xaml.cs
+videopuzzle/App.xaml.cs
