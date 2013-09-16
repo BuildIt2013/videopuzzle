@@ -90,6 +90,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Square.cs" />
+    <Compile Include="TileManager.cs" />
     <Compile Include="VideoPuzzleException.cs" />
   </ItemGroup>
   <ItemGroup>

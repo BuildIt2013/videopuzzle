@@ -398,7 +398,7 @@ http://lorempixel.com/";
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
-            UpdateLiveTile();
+            TileManager.UpdateLiveTile();
             images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
@@ -466,27 +466,5 @@ http://lorempixel.com/";
             }
             return null;
         }
-
-        private void UpdateLiveTile()
-        {
-            CycleTileData tileData = new CycleTileData();
-            tileData.Title = "Sliding Puzzle";
-            tileData.Count = 0;
-            ShellTile tile = ShellTile.ActiveTiles.First();
-            tileData.SmallBackgroundImage = new Uri("Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative);
-
-            // Images could be max Nine images.
-            tileData.CycleImages = new List<Uri>
-               {
-                  new Uri(@"\Assets\Tiles\001.jpg", UriKind.Relative), 
-                  new Uri(@"\Assets\Tiles\002.jpg", UriKind.Relative), 
-                  
-               };
-
-            var clearTileData = new CycleTileData("<?xml version=\"1.0\" encoding=\"utf-8\"?><wp:Notification xmlns:wp=\"WPNotification\" Version=\"2.0\"> <wp:Tile Id=\"TileID\" Template=\"CycleTile\"> <wp:SmallBackgroundImage Action=\"Clear\" /> <wp:CycleImage1 Action=\"Clear\" /> <wp:CycleImage2 Action=\"Clear\" /> <wp:CycleImage3 Action=\"Clear\" /> <wp:CycleImage4 Action=\"Clear\" /> <wp:CycleImage5 Action=\"Clear\" /> <wp:CycleImage6 Action=\"Clear\" /> <wp:CycleImage7 Action=\"Clear\" /> <wp:CycleImage8 Action=\"Clear\" /> <wp:CycleImage9 Action=\"Clear\" /> <wp:Count Action=\"Clear\" /> <wp:Title Action=\"Clear\" /> </wp:Tile></wp:Notification>");
-            tile.Update(clearTileData);
-            tile.Update(tileData);
-        }
-
     }
 }
