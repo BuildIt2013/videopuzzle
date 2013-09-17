@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="CustomTile.CustomTileControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="336" Width="691">
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
+        <Canvas x:Name="Block1" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FFF0E507" Margin="170,0,0,0"/>
+        <Canvas x:Name="Block2" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FF077CF0" Margin="170,170,0,-4"/>
+        <Canvas x:Name="Block3" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FFF0E507" Margin="511,0,0,0"/>
+        <Canvas x:Name="Block4" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FF077CF0" Margin="511,170,0,-4"/>
+        <Canvas x:Name="Block5" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FFF0E507" Margin="340,170,0,-4"/>
+        <Canvas x:Name="Block6" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FF077CF0" Margin="340,0,0,0"/>
+        <Canvas x:Name="Block0" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FFF0E507" Margin="681,170,-160,-4"/>
+        <Canvas x:Name="Block8" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FF077CF0" Margin="681,0,-160,0"/>
+        <Canvas x:Name="Block9" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FF077CF0"/>
+        <Canvas x:Name="Block7" HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Background="#FFF0E507" Margin="0,170,0,-4"/>
+
+    </Grid>
+</UserControl>

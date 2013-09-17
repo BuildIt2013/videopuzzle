@@ -27,6 +27,7 @@ using Microsoft.WindowsAzure.MobileServices;
 
 
 
+
 namespace videopuzzle
 {
     public partial class MainPage : PhoneApplicationPage
@@ -399,12 +400,13 @@ http://lorempixel.com/";
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
-            Utils.UpdateLiveTile();
+            Utils.UpdateLiveTile(images);
             images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
             isGameStarted = true;
         }
+
 
 
         private static string getTimeString(int secs)

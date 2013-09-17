@@ -49,6 +49,8 @@ namespace videopuzzle
                 }
             }            
         }
+
+        // Update tile positions according to the list, with animation
         private void UpdateTilePositionsAnimate()
         {
             for (int i = 0; i < squares.Count; i++)
