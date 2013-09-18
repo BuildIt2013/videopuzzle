@@ -400,7 +400,14 @@ http://lorempixel.com/";
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             playButton.Visibility = System.Windows.Visibility.Collapsed;
-            Utils.UpdateLiveTile(images);
+            try
+            {
+                Utils.UpdateLiveTile(images);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             images.Last().Visibility = System.Windows.Visibility.Collapsed;
             timer.Start();
             puzzleBoard.Shuffle();
