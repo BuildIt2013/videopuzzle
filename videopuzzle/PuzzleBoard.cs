@@ -112,33 +112,6 @@ namespace videopuzzle
                     int randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * ARRAYWIDTH);
                     MoveTile(randTile, false, true);
                 }
-
-                /*
-                int randTile = 12;
-                for (int i = 0; i < 1000; i++)
-                {
-                    int temp = randTile;
-                    int direction = (int)(rand.NextDouble() * 4);
-                    if (direction == 0)
-                        temp = temp - 1;
-                    else if (direction == 1)
-                        temp = temp + 1;
-                    else if (direction == 2)
-                        temp = temp - 3;
-                    else
-                        temp = temp + 3;
-
-                    if (temp >= 0 && temp < 12)
-                        randTile = temp;
-                    try
-                    {
-                        MoveTile(randTile, false, true);
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message);
-                    }
-                }*/
                 UpdateTilePositionsAnimate();
             }
             else
@@ -156,10 +129,8 @@ namespace videopuzzle
                         temp = temp - 6;
                     else
                         temp = temp + 6;
-
                     if (temp >= 0 && temp < 48)
                         randTile = temp;
-//                    randTile = (int)(rand.NextDouble() * ARRAYHEIGHT * 2 * ARRAYWIDTH * 2);
                     MoveTile(randTile, false, true);
                 }
                 UpdateTilePositionsAnimate();

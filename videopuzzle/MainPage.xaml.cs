@@ -79,7 +79,7 @@ namespace videopuzzle
 
         private void UpdateTime()
         {
-            PlayTimer.Text = getTimeString(playTime);
+            PlayTimer.Text = Utils.GetTimeString(playTime);
         }
 
         private void ResetTime()
@@ -399,32 +399,25 @@ http://lorempixel.com/";
 
         private void playButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            playButton.Visibility = System.Windows.Visibility.Collapsed;
-            try
+            if (!isLoading)
             {
-                Utils.UpdateLiveTile(images);
+                playButton.Visibility = System.Windows.Visibility.Collapsed;
+                try
+                {
+                    Utils.UpdateLiveTile(MainGrid);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                images.Last().Visibility = System.Windows.Visibility.Collapsed;
+                timer.Start();
+                puzzleBoard.Shuffle();
+
+                isGameStarted = true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            images.Last().Visibility = System.Windows.Visibility.Collapsed;
-            timer.Start();
-            puzzleBoard.Shuffle();
-            isGameStarted = true;
         }
 
-
-
-        private static string getTimeString(int secs)
-        {
-            int min = secs / 60;
-            int sec = secs % 60;
-            string minutes = (min < 10) ? "0" + min.ToString() : min.ToString();
-            string seconds = (sec < 10) ? "0" + sec.ToString() : sec.ToString();
-
-            return minutes + ":" + seconds;
-        }
 
         private async Task initCamera(CameraSensorLocation sensorLocation)
         {
